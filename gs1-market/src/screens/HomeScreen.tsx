@@ -39,9 +39,6 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
           <p className="mt-4 max-w-[27rem] text-2xl leading-snug text-on-surface-variant">
             Demuestra la velocidad, precisión y sincronía de tu equipo en la caja registradora de alta tecnología.
           </p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <Chip>#GS1MARKET</Chip>
-          </div>
           <div className="mt-5 grid grid-cols-3 gap-5 border-t border-slate-200 pt-5">
             <Stat icon={<ShoppingBasket size={30} />} tone="text-gs1-blue bg-blue-50" value={String(TOTAL_PRODUCTS)} label="Productos" />
             <Stat icon={<UsersRound size={30} />} tone="text-gs1-purple bg-purple-50" value={`${MAX_PLAYERS_PER_BOX}`} label="Por equipo" />
@@ -122,10 +119,6 @@ function MiniStat({ value, label }: { value: number; label: string }) {
       <div className="text-sm font-bold text-on-surface-variant">{label}</div>
     </div>
   );
-}
-
-function Chip({ children }: { children: React.ReactNode }) {
-  return <span className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-lg font-semibold text-on-surface">{children}</span>;
 }
 
 function Stat({ icon, tone, value, label }: { icon: React.ReactNode; tone: string; value: string; label: string }) {

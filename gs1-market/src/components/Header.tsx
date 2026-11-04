@@ -20,8 +20,6 @@ export function Header() {
         <div className="font-display text-4xl font-extrabold tracking-tight">
           <span className="text-gs1-blue">GS1</span> <span className="text-gs1-orange">Market</span>
         </div>
-        <div className="mx-2 h-9 w-px bg-slate-200" />
-        <span className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-bold text-gs1-blue">#GS1MARKET</span>
       </div>
       <div className="flex items-center gap-8">
         <span className="flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-5 py-2 text-base font-bold tracking-wide text-green-800">

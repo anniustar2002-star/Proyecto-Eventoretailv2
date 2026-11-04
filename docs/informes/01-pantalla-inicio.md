@@ -1,6 +1,6 @@
 # Informe 01: Cimientos + Pantalla 1 (Inicio)
 
-Estado: **lista para revisión del usuario**. Captura: `01-inicio.png` (compara con `Carrera-de-escaneo-imagenes/.../gs1_market_pantalla_tv_interactiva/screen.png`).
+Estado: **APROBADA por el usuario (pantalla cerrada)**. Captura final: `01-inicio.png` (compara con `Carrera-de-escaneo-imagenes/.../gs1_market_pantalla_tv_interactiva/screen.png`).
 
 ## Qué se hizo
 **Cimientos (`gs1-market/`)**: Electron + Vite + React + TypeScript estricto + Tailwind. Fuentes Inter y Plus Jakarta Sans empaquetadas (sin CDN).
@@ -31,8 +31,9 @@ Estado: **lista para revisión del usuario**. Captura: `01-inicio.png` (compara 
 ## Ajuste posterior (revisión del usuario)
 - Se **quitó el simulador/prueba de pistola** del Inicio.
 - Para llenar el espacio, tomando ideas de la versión vertical que mostró el usuario: tarjeta azul de **Récord actual** (tiempo y equipo), Top 3, y contadores de **equipos que han competido** y **partidas jugadas**. Datos reales desde los resultados guardados.
-- La captura `01-inicio.png` es de la primera versión (con simulador); ver cambios arriba.
 - **Datos de ejemplo** (`src/data/demoResults.ts`): mientras no haya resultados reales, el Inicio muestra 5 equipos de muestra (récord, Top 3 y contadores). Desaparecen solos con la primera partida real. Se apagan con `SHOW_DEMO_WHEN_EMPTY = false`.
 - **Sin scroll (pantalla pública):** la app se dibuja en un lienzo fijo de 1920x1080 (`src/components/Stage.tsx`) que se escala para caber en cualquier ventana, sin barras de desplazamiento. Verificado en 1920x1080, 1920x870, 1366x768 y 3840x2160 (scroll = 0). **Todas las pantallas siguientes deben caber en ese lienzo.**
 - La tabla rápida muestra ahora el **Top 5**.
 - Ilustración animada de bolsas GS1 (`src/assets/retail-bolsas.svg`, enviada por el usuario) en el hueco de la tarjeta principal, a la derecha del título.
+- Logo de GS1 Venezuela en la cabecera (reemplaza el icono de escáner): `src/assets/logo-gs1-venezuela.png`.
+- Se quitó el chip **#GS1MARKET** (cabecera y tarjeta principal). Captura final actualizada.

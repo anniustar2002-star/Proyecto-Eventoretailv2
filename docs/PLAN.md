@@ -44,7 +44,7 @@ Cada pantalla pasa por: **construir → verificar (typecheck, lint, build, captu
 
 | # | Pantalla | Referencia | Estado |
 |---|---|---|---|
-| 1 | Inicio / Hub | `gs1_market_pantalla_tv_interactiva` | Pendiente |
+| 1 | Inicio / Hub | `gs1_market_pantalla_tv_interactiva` | **Cerrada** |
 | 2 | Registro de escuadrón | `gs1_market_registro_de_equipo_tv_interactiva` | Pendiente |
 | 3 | Desafío en vivo | `gs1_market_desaf_o_en_vivo_tv_interactiva` | Pendiente |
 | 4 | Tabla de posiciones | `gs1_market_tabla_de_posiciones_tv_interactiva` | Pendiente |
