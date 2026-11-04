@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Cereal"><title>Cereal</title><ellipse cx="60" cy="108" rx="28" ry="4" fill="#002C6C" opacity=".12"/>
+<rect x="32" y="18" width="50" height="88" rx="3" fill="#F26334"/>
+<path d="M82 18 l8 6 v86 l-8 -4 z" fill="#C94B22"/>
+<rect x="32" y="18" width="50" height="16" fill="#002C6C"/>
+<text x="57" y="30" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">CEREAL</text>
+<circle cx="57" cy="64" r="18" fill="#FFFFFF"/>
+<path d="M39 64 a18 18 0 0 0 36 0 z" fill="#00B6DE"/>
+<circle cx="50" cy="60" r="4.5" fill="#FBB034"/><circle cx="60" cy="57" r="4.5" fill="#FF8200"/><circle cx="64" cy="64" r="4" fill="#FBB034"/><circle cx="53" cy="66" r="3.5" fill="#FF8200"/>
+<rect x="44.0" y="90" width="2.0" height="9" fill="#fff"/><rect x="47.0" y="90" width="1.0" height="9" fill="#fff"/><rect x="49.0" y="90" width="3.0" height="9" fill="#fff"/><rect x="53.0" y="90" width="1.0" height="9" fill="#fff"/><rect x="56.0" y="90" width="1.0" height="9" fill="#fff"/><rect x="58.0" y="90" width="2.0" height="9" fill="#fff"/><rect x="61.0" y="90" width="3.0" height="9" fill="#fff"/></svg>

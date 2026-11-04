@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Leche"><title>Leche</title><ellipse cx="60" cy="108" rx="22" ry="4" fill="#002C6C" opacity=".12"/>
+<path d="M42 40 l8 -14 h20 l8 14 v62 a4 4 0 0 1 -4 4 h-28 a4 4 0 0 1 -4 -4 z" fill="#FFFFFF" stroke="#DDE4EE" stroke-width="1.5"/>
+<rect x="49" y="14" width="22" height="12" rx="2" fill="#00B6DE"/>
+<path d="M42 40 h36 v8 h-36 z" fill="#EEF3F9"/>
+<path d="M42 58 h36 v26 h-36 z" fill="#00B6DE"/>
+<path d="M42 72 q9 -6 18 0 t18 0 v12 h-36 z" fill="#0094B8"/>
+<text x="60" y="68" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">LECHE</text>
+<rect x="49.0" y="90" width="2.0" height="8" fill="#1B2330"/><rect x="52.0" y="90" width="1.0" height="8" fill="#1B2330"/><rect x="54.0" y="90" width="3.0" height="8" fill="#1B2330"/><rect x="58.0" y="90" width="1.0" height="8" fill="#1B2330"/><rect x="61.0" y="90" width="1.0" height="8" fill="#1B2330"/><rect x="63.0" y="90" width="2.0" height="8" fill="#1B2330"/><rect x="66.0" y="90" width="3.0" height="8" fill="#1B2330"/></svg>

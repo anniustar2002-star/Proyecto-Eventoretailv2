@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Pasta"><title>Pasta</title><ellipse cx="60" cy="108" rx="26" ry="4" fill="#002C6C" opacity=".12"/>
+<path d="M36 26 h48 l-4 80 h-40 z" fill="#F05587"/>
+<path d="M36 26 h48 v10 h-48 z" fill="#D2416F"/>
+<rect x="44" y="46" width="32" height="30" rx="4" fill="#FFF6E5"/>
+<g stroke="#E9B872" stroke-width="2.4" stroke-linecap="round">
+  <path d="M50 52 q4 6 0 12 q-4 6 0 8"/><path d="M57 50 q4 6 0 12 q-4 6 0 10"/><path d="M64 50 q4 6 0 12 q-4 6 0 10"/><path d="M71 52 q4 6 0 12 q-4 6 0 8"/>
+</g>
+<text x="60" y="88" font-family="Arial" font-weight="700" font-size="9" fill="#fff" text-anchor="middle">PASTA</text>
+<rect x="48.0" y="93" width="2.0" height="8" fill="#fff"/><rect x="51.0" y="93" width="1.0" height="8" fill="#fff"/><rect x="53.0" y="93" width="3.0" height="8" fill="#fff"/><rect x="57.0" y="93" width="1.0" height="8" fill="#fff"/><rect x="60.0" y="93" width="1.0" height="8" fill="#fff"/><rect x="62.0" y="93" width="2.0" height="8" fill="#fff"/><rect x="65.0" y="93" width="3.0" height="8" fill="#fff"/></svg>

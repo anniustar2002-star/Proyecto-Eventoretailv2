@@ -187,7 +187,7 @@ export function ChallengeScreen({ team, data, tiebreak, turn, nextTeam, onFinish
               <div key={game.index} className="pop flex flex-1 items-center justify-center gap-8">
                 {product && running ? (
                   image ? (
-                    <img src={image} data-product={product.id} alt="Producto a escanear" className="h-[19rem] w-auto max-w-full object-contain drop-shadow-xl" />
+                    <img src={image} data-product={product.id} alt="Producto a escanear" className="h-[21rem] w-auto max-w-full object-contain drop-shadow-xl" />
                   ) : (
                     // Provisional: mientras no haya foto del producto se muestra icono y nombre
                     <>
