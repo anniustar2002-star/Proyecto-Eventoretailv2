@@ -3,14 +3,15 @@
 Última actualización: ver historial de git de este archivo.
 
 ## Estado actual
-- Fase 0 (cimientos): **no iniciada**.
-- Pantalla 1 (Inicio): pendiente.
+- Fase 0 (cimientos): **hecha** (`gs1-market/`).
+- Pantalla 1 (Inicio): **lista, esperando revisión del usuario** (`informes/01-pantalla-inicio.md`).
 - Pantalla 2 (Registro): pendiente.
 - Pantalla 3 (Desafío): pendiente.
 - Pantalla 4 (Posiciones): pendiente.
 
 ## Siguiente paso
-El usuario respondió las preguntas bloqueantes (ver `PLAN.md`). Falta su visto bueno para arrancar la Fase 0 y la pantalla 1.
+Revisión del usuario de la pantalla 1. Con su visto bueno: pantalla 2 (Registro).
+Comandos: `cd gs1-market && npm install && npm run dev` (navegador), `npm test`, `npm run build`.
 
 ## Bitácora
 - Informe 00: análisis de la app anterior (descartada) y de la maqueta nueva. Ver `informes/00-analisis-inicial.md`.

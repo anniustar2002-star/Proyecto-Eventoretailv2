@@ -64,8 +64,11 @@ Podio Top 3, tabla de equipos, filtros, récords. Se alimenta de las partidas fi
 - [ ] Pruebas con pistola real.
 - [ ] Pruebas de TV (1920x1080 y 4K) y revisión final.
 
+## Decisiones adicionales (confirmadas)
+- Si se llega a 1:30 sin terminar: la partida se corta; se clasifica por **productos escaneados** (más es mejor) y luego por tiempo.
+- Las **3 cajas existen de antemano** y se rellenan. Puede haber 1, 2 o 3 cajas activas y 1 o 2 jugadores por caja (mínimo 1 jugador, máximo 2).
+- Se mantiene la sede "Hotel Eurobuilding • Caracas" en el diseño; solo se quitó la **fecha**.
+
 ## Preguntas abiertas
 1. GTIN reales (hoy de prueba).
-2. Si se llega al 1:30 sin terminar los 10 productos: ¿la partida se corta y queda "no terminó" (con cuántos productos llevaba), o se registra 1:30 más penalizaciones? (propuesta: se corta; se clasifica primero por productos escaneados y luego por tiempo).
-3. Las 3 cajas/equipos se registran de antemano o se crean al jugar? (propuesta: Registro crea el equipo y lo asigna a Caja 1, 2 o 3).
-4. Marca: unificar logo y colores de "GS1 Market".
+2. Marca: unificar logo y colores de "GS1 Market".
