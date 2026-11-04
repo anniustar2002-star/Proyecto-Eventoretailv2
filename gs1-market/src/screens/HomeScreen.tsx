@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { BookOpen, ChartColumn, Medal, Play, ShoppingBasket, Timer, Trophy, UsersRound, Zap, X } from 'lucide-react';
+import { DEMO_RESULTS, SHOW_DEMO_WHEN_EMPTY } from '../data/demoResults';
 import { TOTAL_PRODUCTS } from '../data/products';
 import { formatClock, formatShort } from '../lib/format';
 import { ranking } from '../lib/ranking';
@@ -14,10 +15,12 @@ interface Props {
 
 export function HomeScreen({ data, onStart, onRecords }: Props) {
   const [rulesOpen, setRulesOpen] = useState(false);
-  const top3 = useMemo(() => ranking(data.results).slice(0, 3), [data.results]);
+  // Mientras no haya resultados reales se muestran datos de ejemplo
+  const results = data.results.length === 0 && SHOW_DEMO_WHEN_EMPTY ? DEMO_RESULTS : data.results;
+  const top3 = useMemo(() => ranking(results).slice(0, 3), [results]);
   const best = top3[0];
   const record = best?.timeMs;
-  const teamsPlayed = new Set(data.results.map((r) => r.teamId)).size;
+  const teamsPlayed = new Set(results.map((r) => r.teamId)).size;
 
   return (
     <div className="relative z-10 mx-auto grid w-full max-w-[1800px] flex-1 grid-cols-[1.55fr_1fr] gap-8 px-10 py-8">
@@ -89,7 +92,7 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
                 <span className={`flex h-9 w-9 items-center justify-center rounded-lg text-lg font-extrabold ${['bg-yellow-400 text-yellow-900', 'bg-slate-200 text-slate-700', 'bg-orange-200 text-orange-800'][i]}`}>{i + 1}</span>
                 <div className="flex-1">
                   <div className="text-xl font-bold">{r.teamName}</div>
-                  <div className="text-sm text-on-surface-variant">{r.players.join(' y ')}{r.errors === 0 ? ' • Sin fallas' : ` • ${r.errors} fallas`}</div>
+                  <div className="text-sm text-on-surface-variant">{r.players.join(' y ')}{r.errors === 0 ? ' • Sin fallas' : ` • ${r.errors} ${r.errors === 1 ? 'falla' : 'fallas'}`}</div>
                 </div>
                 <div className="text-right">
                   <div className={`font-mono text-2xl font-extrabold ${i === 0 ? 'text-green-600' : 'text-gs1-blue'}`}>{formatShort(r.timeMs)}</div>
@@ -100,7 +103,7 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
           </div>
           <div className="mt-5 grid grid-cols-2 gap-4">
             <MiniStat value={teamsPlayed} label={teamsPlayed === 1 ? 'Equipo ha competido' : 'Equipos han competido'} />
-            <MiniStat value={data.results.length} label={data.results.length === 1 ? 'Partida jugada' : 'Partidas jugadas'} />
+            <MiniStat value={results.length} label={results.length === 1 ? 'Partida jugada' : 'Partidas jugadas'} />
           </div>
         </section>
       </div>

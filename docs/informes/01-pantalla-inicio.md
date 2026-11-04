@@ -32,3 +32,4 @@ Estado: **lista para revisión del usuario**. Captura: `01-inicio.png` (compara 
 - Se **quitó el simulador/prueba de pistola** del Inicio.
 - Para llenar el espacio, tomando ideas de la versión vertical que mostró el usuario: tarjeta azul de **Récord actual** (tiempo y equipo), Top 3, y contadores de **equipos que han competido** y **partidas jugadas**. Datos reales desde los resultados guardados.
 - La captura `01-inicio.png` es de la primera versión (con simulador); ver cambios arriba.
+- **Datos de ejemplo** (`src/data/demoResults.ts`): mientras no haya resultados reales, el Inicio muestra 5 equipos de muestra (récord, Top 3 y contadores). Desaparecen solos con la primera partida real. Se apagan con `SHOW_DEMO_WHEN_EMPTY = false`.
