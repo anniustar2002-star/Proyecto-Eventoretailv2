@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>La Carrera de Escaneo de GS1 Market</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "#FFFFFF",
+            "surface": "#FFFFFF",
+            "surface-container-low": "#F8FAFC",
+            "surface-container": "#F1F5F9",
+            "surface-container-high": "#E2E8F0",
+            "surface-container-highest": "#CBD5E1",
+            "surface-bright": "#FFFFFF",
+            "primary": "#002C6C",
+            "primary-container": "#EFF6FF",
+            "secondary": "#2563EB",
+            "secondary-container": "#DBEAFE",
+            "tertiary": "#F26334",
+            "on-surface": "#0F172A",
+            "on-surface-variant": "#475569",
+            "outline": "#94A3B8",
+            "gs1-blue": "#002C6C",
+            "gs1-orange": "#F26334",
+            "gs1-fuchsia": "#F05587",
+            "gs1-green": "#7AC143",
+            "gs1-purple": "#8A2BE2"
+          },
+          fontFamily: {
+            "display": ["Plus Jakarta Sans", "sans-serif"],
+            "body": ["Inter", "sans-serif"]
+          },
+          animation: {
+            'laser': 'laserMove 2.2s ease-in-out infinite',
+            'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+            'float-slow': 'floatSlow 6s ease-in-out infinite'
+          },
+          keyframes: {
+            laserMove: {
+              '0%, 100%': { top: '8%' },
+              '50%': { top: '88%' }
+            },
+            pulseGlow: {
+              '0%, 100%': { opacity: '0.12', transform: 'scale(1)' },
+              '50%': { opacity: '0.22', transform: 'scale(1.05)' }
+            },
+            floatSlow: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' }
+            }
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #FFFFFF;
+        color: #0F172A;
+        font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
+      }
+    }
+    .laser-line {
+      box-shadow: 0 0 16px #F26334, 0 0 32px #F05587;
+    }
+    .neon-card-glow {
+      box-shadow: 0 12px 35px -8px rgba(0, 44, 108, 0.08), 0 0 0 1px rgba(203, 213, 225, 0.6);
+    }
+    .barcode-pattern {
+      background: repeating-linear-gradient(
+        90deg,
+        #0F172A 0,
+        #0F172A 3px,
+        transparent 3px,
+        transparent 7px,
+        #0F172A 7px,
+        #0F172A 12px,
+        transparent 12px,
+        transparent 15px,
+        #0F172A 15px,
+        #0F172A 20px,
+        transparent 20px,
+        transparent 26px
+      );
+    }
+    /* Custom scrollbar for TV & totem */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94A3B8;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col antialiased selection:bg-gs1-orange selection:text-white relative">
+<!-- Ambient Dynamic Event Background (Light Theme with GS1 Vibrant Tones) -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+<div class="absolute -top-32 -left-32 w-[34rem] h-[34rem] rounded-full bg-gs1-blue/10 blur-[130px] animate-pulse-glow"></div>
+<div class="absolute top-1/4 -right-28 w-[38rem] h-[38rem] rounded-full bg-gs1-orange/10 blur-[140px] animate-pulse-glow" style="animation-delay: 1.5s;"></div>
+<div class="absolute -bottom-24 left-1/3 w-[36rem] h-[36rem] rounded-full bg-gs1-purple/10 blur-[130px]"></div>
+<div class="absolute top-2/3 left-10 w-96 h-96 rounded-full bg-gs1-fuchsia/10 blur-[110px]"></div>
+<!-- Subtle digital raster lines -->
+<div class="absolute inset-0 bg-[linear-gradient(to_right,#0F172A08_1px,transparent_1px),linear-gradient(to_bottom,#0F172A08_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+</div>
+<!-- TV STAGE HEADER / STATUS BAR -->
+<header class="relative z-30 w-full border-b border-surface-container-highest/80 bg-white/90 backdrop-blur-xl shrink-0">
+<div class="max-w-[1920px] mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4">
+<!-- Brand & Event Identity -->
+<div class="flex items-center gap-3 md:gap-5">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-gs1-blue to-gs1-purple p-[1px] flex items-center justify-center shadow-md shadow-gs1-blue/20">
+<div class="w-full h-full rounded-[11px] bg-white flex items-center justify-center">
+<span class="material-symbols-outlined text-gs1-orange text-2xl" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+</div>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-display font-black text-2xl md:text-3xl tracking-tight text-gs1-blue">GS1</span>
+<span class="font-display font-black text-2xl md:text-3xl tracking-tight text-gs1-orange">Market</span>
+</div>
+</div>
+</div>
+<div class="hidden sm:flex items-center gap-2 border-l border-surface-container-highest pl-4">
+<span class="px-2.5 py-1 rounded-full bg-blue-50 text-gs1-blue border border-blue-200 font-display font-bold text-xs tracking-wider uppercase">
+            #GS1MARKET
+          </span>
+<span class="text-xs text-on-surface-variant font-medium tracking-wide">Hotel Eurobuilding • Caracas</span>
+</div>
+</div>
+<!-- TV Arena Live Pulse & Clock -->
+<div class="flex items-center gap-3 md:gap-6">
+<div class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gs1-green opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-gs1-green"></span>
+</span>
+<span class="text-xs md:text-sm font-display font-bold tracking-wider text-emerald-800 uppercase">ARENA EN VIVO</span>
+</div>
+<div class="hidden md:flex flex-col text-right">
+<span class="text-xs text-on-surface-variant uppercase tracking-wider font-semibold">19 Noviembre 2026</span>
+<span class="text-sm font-bold text-gs1-blue" id="live-clock">10:45:12 AM</span>
+</div>
+<button class="w-10 h-10 rounded-xl bg-surface-container hover:bg-surface-container-high border border-surface-container-highest flex items-center justify-center text-gs1-blue transition-transform active:scale-95 shadow-sm" id="sound-toggle-btn" title="Activar/Silenciar Efectos de Sonido">
+<span class="material-symbols-outlined text-xl" id="sound-icon">volume_up</span>
+</button>
+</div>
+</div>
+</header>
+<!-- MAIN STAGE WRAPPER: Fully Responsive for TV 16:9 & Totem 9:16 -->
+<main class="relative z-10 flex-1 max-w-[1920px] w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col justify-center">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch h-full">
+<!-- LEFT COLUMN: Event Hero & Core Action Arena (6 Cols on 16:9) -->
+<div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+<!-- Master Hero Card -->
+<div class="relative rounded-2xl bg-white border border-slate-200/90 p-6 sm:p-8 lg:p-10 overflow-hidden neon-card-glow flex flex-col justify-between flex-1 shadow-lg">
+<!-- Subtle top badge grid (Purely background decorative, NO text overlap) -->
+<div class="absolute -right-8 -top-8 w-60 h-60 opacity-10 pointer-events-none grid grid-cols-3 gap-2 p-2 rotate-12">
+<div class="h-16 rounded-xl bg-gs1-orange flex items-center justify-center"><span class="material-symbols-outlined text-white text-2xl">bolt</span></div>
+<div class="h-16 rounded-xl bg-gs1-fuchsia flex items-center justify-center"><span class="material-symbols-outlined text-white text-2xl">shopping_cart</span></div>
+<div class="h-16 rounded-xl bg-gs1-green flex items-center justify-center"><span class="material-symbols-outlined text-white text-2xl">barcode_reader</span></div>
+<div class="h-16 rounded-xl bg-gs1-blue flex items-center justify-center"><span class="material-symbols-outlined text-white text-2xl">inventory_2</span></div>
+<div class="h-16 rounded-xl bg-gs1-purple flex items-center justify-center"><span class="material-symbols-outlined text-white text-2xl">qr_code_2</span></div>
+<div class="h-16 rounded-xl bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-white text-2xl">point_of_sale</span></div>
+</div>
+<!-- Hero Content -->
+<div class="relative z-10 space-y-5">
+<!-- Pill / Category Header -->
+<div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-gs1-blue font-display text-xs md:text-sm font-extrabold tracking-widest uppercase">
+<span class="w-2 h-2 rounded-full bg-gs1-orange animate-pulse"></span>
+              COMPETICIÓN OFICIAL • GS1 VENEZUELA
+            </div>
+<!-- Big Title for Giant Displays (Crisp from 3-10m) -->
+<div class="space-y-3">
+<h1 class="font-display font-black text-3xl sm:text-5xl lg:text-6xl text-[#0F172A] tracking-tight leading-[1.1]">
+                La Carrera de Escaneo de <span class="text-transparent bg-clip-text bg-gradient-to-r from-gs1-blue via-gs1-purple to-gs1-orange">GS1 Market</span>
+</h1>
+<p class="text-base sm:text-xl lg:text-2xl text-on-surface-variant font-medium max-w-2xl leading-relaxed">
+                Demuestra la velocidad, precisión y sincronía de tu escuadrón en la caja registradora de alta tecnología.
+              </p>
+</div>
+<!-- Venue & Tag Bar -->
+<div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm font-semibold pt-1">
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low border border-slate-200 text-on-surface">
+<span class="material-symbols-outlined text-gs1-orange text-lg">location_on</span>
+<span>Hotel Eurobuilding • Caracas</span>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low border border-slate-200 text-on-surface">
+<span class="material-symbols-outlined text-gs1-green text-lg">calendar_month</span>
+<span>19 Noviembre 2026</span>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low border border-slate-200 text-on-surface">
+<span class="material-symbols-outlined text-gs1-blue text-lg">tag</span>
+<span class="text-gs1-blue font-bold">#GS1MARKET</span>
+</div>
+</div>
+</div>
+<!-- REFINED METRIC BADGES: FIXED OVERLAPS, GENEROUS SPACING, DISTINCT CONTAINERS -->
+<div class="relative z-10 pt-8 mt-6 border-t border-slate-200">
+<div class="grid grid-cols-3 gap-3 sm:gap-5">
+<!-- Metric 1: 8 Productos -->
+<div class="flex flex-col items-center justify-center p-3.5 sm:p-5 rounded-xl bg-surface-container-low border border-slate-200 hover:border-gs1-blue/40 shadow-sm transition-all group">
+<div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-gs1-blue text-2xl sm:text-3xl" style="font-variation-settings: 'FILL' 1;">shopping_basket</span>
+</div>
+<span class="font-display font-black text-2xl sm:text-4xl text-[#0F172A] tracking-tight leading-tight">8</span>
+<span class="font-display font-bold text-[11px] sm:text-xs text-on-surface-variant uppercase tracking-wider text-center mt-1">PRODUCTOS SKU</span>
+</div>
+<!-- Metric 2: Max 5 Por Equipo -->
+<div class="flex flex-col items-center justify-center p-3.5 sm:p-5 rounded-xl bg-surface-container-low border border-slate-200 hover:border-gs1-purple/40 shadow-sm transition-all group">
+<div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-gs1-purple text-2xl sm:text-3xl" style="font-variation-settings: 'FILL' 1;">groups</span>
+</div>
+<span class="font-display font-black text-2xl sm:text-4xl text-[#0F172A] tracking-tight leading-tight">Máx 5</span>
+<span class="font-display font-bold text-[11px] sm:text-xs text-on-surface-variant uppercase tracking-wider text-center mt-1">POR EQUIPO</span>
+</div>
+<!-- Metric 3: 60s Contra Reloj -->
+<div class="flex flex-col items-center justify-center p-3.5 sm:p-5 rounded-xl bg-surface-container-low border border-slate-200 hover:border-gs1-orange/40 shadow-sm transition-all group">
+<div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-gs1-orange text-2xl sm:text-3xl" style="font-variation-settings: 'FILL' 1;">timer</span>
+</div>
+<span class="font-display font-black text-2xl sm:text-4xl text-[#0F172A] tracking-tight leading-tight">60s</span>
+<span class="font-display font-bold text-[11px] sm:text-xs text-on-surface-variant uppercase tracking-wider text-center mt-1">CONTRA RELOJ</span>
+</div>
+</div>
+</div>
+</div>
+<!-- TV CONTROLS & INTERACTIVE CTAs (Big, Touch & Remote friendly) -->
+<div class="space-y-3.5">
+<!-- Main Launch Trigger -->
+<button class="w-full py-4 sm:py-5 px-8 rounded-2xl bg-gradient-to-r from-gs1-orange via-[#FF7844] to-gs1-fuchsia hover:brightness-105 active:scale-[0.98] transition-all duration-200 shadow-[0_12px_28px_rgba(242,99,52,0.3)] flex items-center justify-center gap-4 text-white font-display text-lg sm:text-2xl font-black uppercase tracking-wider group cursor-pointer border border-white/30" id="btn-start">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-12 transition-transform" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span>¡COMENZAR PARTIDA!</span>
+<span class="material-symbols-outlined text-3xl group-hover:translate-x-2 transition-transform">play_arrow</span>
+</button>
+<!-- Dual Secondary Modals Trigger -->
+<div class="grid grid-cols-2 gap-3.5">
+<button class="py-3.5 sm:py-4 px-5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 shadow-sm active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 text-gs1-blue font-display font-bold text-sm sm:text-base group" id="btn-records">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 text-gs1-blue transition-transform">leaderboard</span>
+<span>Ver Récords del Día</span>
+</button>
+<button class="py-3.5 sm:py-4 px-5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 shadow-sm active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 text-on-surface font-display font-bold text-sm sm:text-base group" id="btn-rules">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 text-gs1-orange transition-transform">menu_book</span>
+<span>Reglas Rápidas</span>
+</button>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Interactive Arena Widget, Scanner Visualizer & Live Ticker (5 Cols on 16:9) -->
+<div class="lg:col-span-5 flex flex-col space-y-6">
+<!-- Live Scanner Visualizer Widget -->
+<div class="rounded-2xl bg-white border border-slate-200/90 p-5 sm:p-6 shadow-lg flex flex-col justify-between space-y-5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-gs1-orange text-2xl">barcode_scanner</span>
+<div>
+<h3 class="font-display font-bold text-base sm:text-lg text-[#0F172A]">Simulador de Haz Óptico GS1</h3>
+<p class="text-xs text-on-surface-variant font-medium">Prueba la lectura bidimensional en pantalla</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold uppercase tracking-wider">
+              Listo
+            </span>
+</div>
+<!-- Interactive Scanner Arena Screen -->
+<div class="relative h-44 sm:h-52 w-full rounded-xl bg-surface-container-low border-2 border-slate-200 overflow-hidden flex flex-col items-center justify-center select-none transition-all duration-300" id="scanner-box">
+<!-- Background barcode pattern -->
+<div class="absolute inset-x-6 h-24 barcode-pattern opacity-15 rounded"></div>
+<!-- Animated Glowing Laser Line -->
+<div class="absolute inset-x-2 h-1 bg-gradient-to-r from-transparent via-gs1-orange to-transparent animate-laser laser-line pointer-events-none" id="laser-beam"></div>
+<!-- Scan Center Reticle -->
+<div class="relative z-10 flex flex-col items-center justify-center p-3 rounded-lg bg-white/95 backdrop-blur-sm border border-slate-300 shadow-md text-center">
+<span class="font-mono text-sm sm:text-base font-bold text-gs1-blue tracking-widest" id="scan-code-label">GS1-759103100248</span>
+<span class="text-[11px] text-on-surface-variant mt-0.5" id="scan-status-text">Esperando paso por escáner...</span>
+</div>
+<!-- Scan Success Pop Message (Hidden by default) -->
+<div class="absolute inset-0 bg-emerald-500/20 backdrop-blur-sm flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-200" id="scan-success-alert">
+<span class="material-symbols-outlined text-4xl text-emerald-600 drop-shadow">check_circle</span>
+<span class="font-display font-black text-lg text-emerald-800 mt-1">¡CÓDIGO VERIFICADO!</span>
+<span class="text-xs text-emerald-700 font-semibold">+1 Producto Registrado</span>
+</div>
+</div>
+<!-- Scanner Simulator Actions -->
+<div class="flex items-center gap-3">
+<button class="flex-1 py-3 px-4 rounded-xl bg-surface-container-low hover:bg-surface-container border border-slate-200 active:scale-95 transition-all text-[#0F172A] font-display font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm" id="btn-trigger-scan">
+<span class="material-symbols-outlined text-gs1-orange text-lg">sensors</span>
+<span>Simular Escaneo (Test)</span>
+</button>
+<div class="px-4 py-2.5 rounded-xl bg-surface-container-low border border-slate-200 text-center min-w-[90px] shadow-sm">
+<span class="text-[10px] uppercase text-on-surface-variant block font-bold">Leídos</span>
+<span class="font-display font-black text-lg text-gs1-blue" id="scan-count-badge">0 / 8</span>
+</div>
+</div>
+</div>
+<!-- Live Scoreboard / Recent Runs Ticker -->
+<div class="rounded-2xl bg-white border border-slate-200/90 p-5 sm:p-6 shadow-lg flex-1 flex flex-col justify-between space-y-4">
+<div class="flex items-center justify-between border-b border-slate-200 pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-gs1-blue text-2xl">trophy</span>
+<span class="font-display font-bold text-base sm:text-lg text-[#0F172A]">Tabla de Posiciones Rápida</span>
+</div>
+<span class="text-xs font-bold text-gs1-orange bg-orange-50 border border-orange-200 px-2.5 py-1 rounded-full">Top 3 Hoy</span>
+</div>
+<!-- Top Records List -->
+<div class="space-y-2.5">
+<!-- Rank 1 -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-amber-50/60 border border-amber-200/70">
+<div class="flex items-center gap-3">
+<span class="w-7 h-7 rounded-lg bg-yellow-400 text-amber-950 font-display font-black text-sm flex items-center justify-center border border-yellow-500/50 shadow-sm">1</span>
+<div>
+<span class="font-display font-bold text-sm text-[#0F172A] block">Escuadrón Polar Express</span>
+<span class="text-[11px] text-on-surface-variant font-medium">5 Integrantes • Sin fallas</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-display font-black text-base text-emerald-600 block">24.8s</span>
+<span class="text-[10px] text-on-surface-variant font-semibold">RÉCORD ACTUAL</span>
+</div>
+</div>
+<!-- Rank 2 -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low border border-slate-200">
+<div class="flex items-center gap-3">
+<span class="w-7 h-7 rounded-lg bg-slate-200 text-slate-700 font-display font-black text-sm flex items-center justify-center border border-slate-300">2</span>
+<div>
+<span class="font-display font-bold text-sm text-[#0F172A] block">Los Titanes del Barcode</span>
+<span class="text-[11px] text-on-surface-variant">4 Integrantes</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-display font-black text-base text-gs1-blue block">28.4s</span>
+<span class="text-[10px] text-on-surface-variant font-semibold">+3.6s</span>
+</div>
+</div>
+<!-- Rank 3 -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low border border-slate-200">
+<div class="flex items-center gap-3">
+<span class="w-7 h-7 rounded-lg bg-amber-100 text-amber-800 font-display font-black text-sm flex items-center justify-center border border-amber-300">3</span>
+<div>
+<span class="font-display font-bold text-sm text-[#0F172A] block">Escáner Alfa Caracas</span>
+<span class="text-[11px] text-on-surface-variant">3 Integrantes</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-display font-black text-base text-gs1-orange block">31.2s</span>
+<span class="text-[10px] text-on-surface-variant font-semibold">+6.4s</span>
+</div>
+</div>
+</div>
+<!-- Bottom Metric Proof Bar -->
+<div class="p-3 rounded-xl bg-blue-50/70 border border-blue-200 flex items-center justify-between text-xs">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="w-2.5 h-2.5 rounded-full bg-gs1-blue animate-pulse"></span>
+<span><strong class="text-[#0F172A]">32 equipos</strong> registrados hoy</span>
+</div>
+<span class="text-gs1-blue font-bold">Hotel Eurobuilding</span>
+</div>
+</div>
+</div>
+</div>
+<!-- FOOTER SEAL & CREDITS -->
+<footer class="mt-6 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="font-display font-bold text-[#0F172A] uppercase tracking-wider">Estándar Global de Identificación</span>
+<span>•</span>
+<span class="text-gs1-blue font-bold">GS1 Venezuela</span>
+</div>
+<div class="flex items-center gap-4">
+<span>Caracas • 19 Noviembre 2026</span>
+<span>•</span>
+<span class="text-gs1-orange font-bold">#GS1MARKET</span>
+</div>
+</footer>
+</main>
+<!-- INTERACTIVE MODAL 1: REGLAS RÁPIDAS (Quick Rules with SKUs details) -->
+<div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md hidden items-center justify-center p-4" id="modal-rules">
+<div class="w-full max-w-2xl bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-200">
+<div class="flex items-center justify-between border-b border-slate-200 pb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center">
+<span class="material-symbols-outlined text-gs1-orange text-2xl">menu_book</span>
+</div>
+<div>
+<h2 class="font-display font-black text-xl sm:text-2xl text-[#0F172A]">Reglas Rápidas de la Carrera</h2>
+<p class="text-xs text-on-surface-variant">Todo lo que tu escuadrón debe saber antes de iniciar</p>
+</div>
+</div>
+<button class="w-9 h-9 rounded-xl bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" id="close-modal-rules">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="p-4 rounded-xl bg-surface-container-low border border-slate-200 space-y-2">
+<span class="w-7 h-7 rounded-lg bg-gs1-orange text-white font-display font-black text-sm flex items-center justify-center">1</span>
+<h4 class="font-display font-bold text-sm text-[#0F172A]">Escaneo en Secuencia</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">Pasa los 8 productos bajo el lector sin duplicar ni omitir códigos de barra.</p>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-low border border-slate-200 space-y-2">
+<span class="w-7 h-7 rounded-lg bg-gs1-blue text-white font-display font-black text-sm flex items-center justify-center">2</span>
+<h4 class="font-display font-bold text-sm text-[#0F172A]">Bonus Código 2D</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">El producto final cuenta con código QR / 2D estándar GS1. Su lectura resta -5 segundos.</p>
+</div>
+<div class="p-4 rounded-xl bg-surface-container-low border border-slate-200 space-y-2">
+<span class="w-7 h-7 rounded-lg bg-gs1-green text-white font-display font-black text-sm flex items-center justify-center">3</span>
+<h4 class="font-display font-bold text-sm text-[#0F172A]">Tiempo de Corte</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">Límite absoluto de 60 segundos. Gana el equipo con menor tiempo y cero penalizaciones.</p>
+</div>
+</div>
+<div class="p-4 rounded-xl bg-blue-50/70 border border-blue-200 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gs1-blue text-2xl">verified</span>
+<span class="text-xs text-on-surface-variant font-medium">Equipos de 2 a 5 personas permitidos. Cada participante puede manipular la cesta.</span>
+</div>
+</div>
+<button class="w-full py-4 rounded-xl bg-gradient-to-r from-gs1-orange to-gs1-fuchsia text-white font-display font-bold text-base uppercase tracking-wider hover:brightness-105 active:scale-98 transition-all shadow-md shadow-orange-500/20" id="btn-rules-start-now">
+        ¡Comprendido! Iniciar Desafío
+      </button>
+</div>
+</div>
+<!-- INTERACTIVE MODAL 2: TABLA COMPLETA DE RÉCORDS -->
+<div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md hidden items-center justify-center p-4" id="modal-records">
+<div class="w-full max-w-2xl bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl relative animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+<div class="flex items-center justify-between border-b border-slate-200 pb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center">
+<span class="material-symbols-outlined text-gs1-blue text-2xl">leaderboard</span>
+</div>
+<div>
+<h2 class="font-display font-black text-xl sm:text-2xl text-[#0F172A]">Salón de Récords Oficiales</h2>
+<p class="text-xs text-on-surface-variant">Tiempos certificados en GS1 Market Caracas</p>
+</div>
+</div>
+<button class="w-9 h-9 rounded-xl bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" id="close-modal-records">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-amber-50/70 border border-amber-200">
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-lg bg-yellow-400 text-amber-950 font-display font-black text-sm flex items-center justify-center shadow-sm">#1</span>
+<div>
+<span class="font-display font-bold text-[#0F172A] text-base">Escuadrón Polar Express</span>
+<span class="text-xs text-on-surface-variant block">5 Integrantes • 0 Faltas</span>
+</div>
+</div>
+<span class="font-display font-black text-xl text-emerald-600">24.8s</span>
+</div>
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low border border-slate-200">
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-lg bg-slate-200 text-slate-700 font-display font-black text-sm flex items-center justify-center">#2</span>
+<div>
+<span class="font-display font-bold text-[#0F172A] text-base">Los Titanes del Barcode</span>
+<span class="text-xs text-on-surface-variant block">4 Integrantes • 0 Faltas</span>
+</div>
+</div>
+<span class="font-display font-black text-xl text-gs1-blue">28.4s</span>
+</div>
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low border border-slate-200">
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 font-display font-black text-sm flex items-center justify-center">#3</span>
+<div>
+<span class="font-display font-bold text-[#0F172A] text-base">Escáner Alfa Caracas</span>
+<span class="text-xs text-on-surface-variant block">3 Integrantes • 0 Faltas</span>
+</div>
+</div>
+<span class="font-display font-black text-xl text-gs1-orange">31.2s</span>
+</div>
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low border border-slate-200">
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-lg bg-slate-100 text-slate-700 font-display font-black text-sm flex items-center justify-center">#4</span>
+<div>
+<span class="font-display font-bold text-[#0F172A] text-base">Logística Retail 2.0</span>
+<span class="text-xs text-on-surface-variant block">4 Integrantes • 1 Falta (+2s)</span>
+</div>
+</div>
+<span class="font-display font-black text-xl text-on-surface-variant">34.6s</span>
+</div>
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low border border-slate-200">
+<div class="flex items-center gap-3">
+<span class="w-8 h-8 rounded-lg bg-slate-100 text-slate-700 font-display font-black text-sm flex items-center justify-center">#5</span>
+<div>
+<span class="font-display font-bold text-[#0F172A] text-base">Velocistas del Eurobuilding</span>
+<span class="text-xs text-on-surface-variant block">2 Integrantes • 0 Faltas</span>
+</div>
+</div>
+<span class="font-display font-black text-xl text-on-surface-variant">37.1s</span>
+</div>
+</div>
+<button class="w-full py-3.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-[#0F172A] font-display font-bold text-sm transition-colors border border-slate-200" id="close-modal-records-btn">
+        Cerrar Tabla
+      </button>
+</div>
+</div>
+<!-- INTERACTIVE MODAL 3: INICIO DE PARTIDA / COUNTDOWN OVERLAY -->
+<div class="fixed inset-0 z-50 bg-white/95 backdrop-blur-xl hidden flex-col items-center justify-center p-6 text-center select-none" id="modal-countdown">
+<div class="space-y-6 max-w-md">
+<div class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-tr from-gs1-orange to-gs1-fuchsia p-[2px] flex items-center justify-center animate-bounce shadow-lg shadow-orange-500/20">
+<div class="w-full h-full rounded-[14px] bg-white flex items-center justify-center">
+<span class="material-symbols-outlined text-gs1-orange text-4xl">rocket_launch</span>
+</div>
+</div>
+<div class="space-y-2">
+<span class="px-3 py-1 rounded-full bg-blue-50 text-gs1-blue border border-blue-200 text-xs font-display font-bold tracking-widest uppercase">
+          PREPARANDO CAJA REGISTRADORA
+        </span>
+<h2 class="font-display font-black text-3xl sm:text-4xl text-[#0F172A]">¡LA CARRERA COMIENZA!</h2>
+<p class="text-sm text-on-surface-variant">Escuadrón en posición. Lector óptico calibrado.</p>
+</div>
+<div class="font-display font-black text-7xl sm:text-8xl text-transparent bg-clip-text bg-gradient-to-r from-gs1-orange to-gs1-blue animate-pulse" id="countdown-number">
+        3
+      </div>
+<p class="text-xs text-on-surface-variant uppercase tracking-widest font-semibold">Toma el primer producto al sonar la campana</p>
+<button class="py-2.5 px-6 rounded-xl bg-surface-container hover:bg-surface-container-high border border-slate-200 text-on-surface text-xs font-bold uppercase tracking-wider transition-colors shadow-sm" id="btn-cancel-countdown">
+        Cancelar / Volver a la Sala
+      </button>
+</div>
+</div>
+<!-- TV & INTERACTIVE CLIENT SCRIPTS -->
+<script>
+    (function() {
+      // Audio Synth Simulation using Web Audio API
+      let soundEnabled = true;
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      let audioCtx = null;
+
+      function playBeep(freq = 880, duration = 0.12, type = 'sine') {
+        if (!soundEnabled) return;
+        try {
+          if (!audioCtx) audioCtx = new AudioCtx();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + duration);
+        } catch(e) {
+          console.warn('Audio not allowed yet', e);
+        }
+      }
+
+      function playSuccessChime() {
+        playBeep(587.33, 0.08);
+        setTimeout(() => playBeep(880, 0.15), 90);
+      }
+
+      function playStartFanfare() {
+        playBeep(440, 0.1);
+        setTimeout(() => playBeep(554.37, 0.1), 120);
+        setTimeout(() => playBeep(659.25, 0.2), 240);
+      }
+
+      // Live TV Clock
+      const clockEl = document.getElementById('live-clock');
+      function updateClock() {
+        if (clockEl) {
+          const now = new Date();
+          clockEl.textContent = now.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+        }
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      // Sound toggle
+      const soundBtn = document.getElementById('sound-toggle-btn');
+      const soundIcon = document.getElementById('sound-icon');
+      if (soundBtn && soundIcon) {
+        soundBtn.addEventListener('click', () => {
+          soundEnabled = !soundEnabled;
+          soundIcon.textContent = soundEnabled ? 'volume_up' : 'volume_off';
+          soundBtn.classList.toggle('text-gs1-orange', !soundEnabled);
+          if (soundEnabled) playBeep(600, 0.08);
+        });
+      }
+
+      // Interactive Simulator Scanner Button
+      let scannedCount = 0;
+      const skuCodes = [
+        "GS1-759103100248 (Café Arábica)",
+        "GS1-759200481920 (Harina Pan)",
+        "GS1-759310842011 (Leche Entera)",
+        "GS1-759400293811 (Aceite Vegetal)",
+        "GS1-759512398402 (Pasta Larga)",
+        "GS1-759600192837 (Arroz Blanco)",
+        "GS1-759711829304 (Atún en Lata)",
+        "GS1-2D-QR991024 (BONUS CÓDIGO 2D)"
+      ];
+
+      const btnTriggerScan = document.getElementById('btn-trigger-scan');
+      const scanCodeLabel = document.getElementById('scan-code-label');
+      const scanStatusText = document.getElementById('scan-status-text');
+      const scanCountBadge = document.getElementById('scan-count-badge');
+      const scanSuccessAlert = document.getElementById('scan-success-alert');
+      const scannerBox = document.getElementById('scanner-box');
+
+      if (btnTriggerScan) {
+        btnTriggerScan.addEventListener('click', () => {
+          scannedCount = (scannedCount % 8) + 1;
+          const currentSku = skuCodes[scannedCount - 1];
+          
+          playSuccessChime();
+
+          if (scanCodeLabel) scanCodeLabel.textContent = currentSku;
+          if (scanStatusText) scanStatusText.textContent = `¡Escaneado con éxito! [Item ${scannedCount} de 8]`;
+          if (scanCountBadge) scanCountBadge.textContent = `${scannedCount} / 8`;
+
+          // Visual pop effect
+          if (scannerBox) {
+            scannerBox.classList.add('border-emerald-500');
+            setTimeout(() => scannerBox.classList.remove('border-emerald-500'), 300);
+          }
+
+          if (scanSuccessAlert) {
+            scanSuccessAlert.classList.remove('opacity-0');
+            scanSuccessAlert.classList.add('opacity-100');
+            setTimeout(() => {
+              scanSuccessAlert.classList.remove('opacity-100');
+              scanSuccessAlert.classList.add('opacity-0');
+            }, 550);
+          }
+        });
+      }
+
+      // MODALS LOGIC
+      // Rules Modal
+      const modalRules = document.getElementById('modal-rules');
+      const btnRules = document.getElementById('btn-rules');
+      const closeRules = document.getElementById('close-modal-rules');
+      const btnRulesStart = document.getElementById('btn-rules-start-now');
+
+      function openRules() {
+        playBeep(480, 0.08);
+        modalRules.classList.remove('hidden');
+        modalRules.classList.add('flex');
+      }
+      function closeRulesModal() {
+        modalRules.classList.add('hidden');
+        modalRules.classList.remove('flex');
+      }
+
+      if (btnRules) btnRules.addEventListener('click', openRules);
+      if (closeRules) closeRules.addEventListener('click', closeRulesModal);
+      if (btnRulesStart) {
+        btnRulesStart.addEventListener('click', () => {
+          closeRulesModal();
+          startCountdown();
+        });
+      }
+
+      // Records Modal
+      const modalRecords = document.getElementById('modal-records');
+      const btnRecords = document.getElementById('btn-records');
+      const closeRecords = document.getElementById('close-modal-records');
+      const closeRecordsBtn = document.getElementById('close-modal-records-btn');
+
+      function openRecords() {
+        playBeep(480, 0.08);
+        modalRecords.classList.remove('hidden');
+        modalRecords.classList.add('flex');
+      }
+      function closeRecordsModal() {
+        modalRecords.classList.add('hidden');
+        modalRecords.classList.remove('flex');
+      }
+
+      if (btnRecords) btnRecords.addEventListener('click', openRecords);
+      if (closeRecords) closeRecords.addEventListener('click', closeRecordsModal);
+      if (closeRecordsBtn) closeRecordsBtn.addEventListener('click', closeRecordsModal);
+
+      // Countdown / Start Partida Modal
+      const modalCountdown = document.getElementById('modal-countdown');
+      const btnStart = document.getElementById('btn-start');
+      const countdownNumber = document.getElementById('countdown-number');
+      const btnCancelCountdown = document.getElementById('btn-cancel-countdown');
+      let countdownTimer = null;
+
+      function startCountdown() {
+        playStartFanfare();
+        if (modalCountdown) {
+          modalCountdown.classList.remove('hidden');
+          modalCountdown.classList.add('flex');
+        }
+
+        let count = 3;
+        if (countdownNumber) countdownNumber.textContent = count;
+
+        if (countdownTimer) clearInterval(countdownTimer);
+
+        countdownTimer = setInterval(() => {
+          count--;
+          if (count > 0) {
+            playBeep(520, 0.12);
+            if (countdownNumber) countdownNumber.textContent = count;
+          } else if (count === 0) {
+            playBeep(980, 0.35, 'square');
+            if (countdownNumber) {
+              countdownNumber.textContent = '¡YA!';
+              countdownNumber.classList.add('text-emerald-600');
+            }
+          } else {
+            clearInterval(countdownTimer);
+            setTimeout(() => {
+              if (modalCountdown) {
+                modalCountdown.classList.add('hidden');
+                modalCountdown.classList.remove('flex');
+              }
+              if (countdownNumber) {
+                countdownNumber.classList.remove('text-emerald-600');
+              }
+              // Reset scanner counter for simulated run
+              scannedCount = 0;
+              if (scanCountBadge) scanCountBadge.textContent = '0 / 8';
+              if (scanStatusText) scanStatusText.textContent = '¡Partida en curso! Escanea los 8 productos.';
+            }, 600);
+          }
+        }, 900);
+      }
+
+      if (btnStart) btnStart.addEventListener('click', startCountdown);
+      if (btnCancelCountdown) {
+        btnCancelCountdown.addEventListener('click', () => {
+          if (countdownTimer) clearInterval(countdownTimer);
+          if (modalCountdown) {
+            modalCountdown.classList.add('hidden');
+            modalCountdown.classList.remove('flex');
+          }
+          if (countdownNumber) countdownNumber.classList.remove('text-emerald-600');
+        });
+      }
+
+      // Close modals on backdrop click
+      window.addEventListener('click', (e) => {
+        if (e.target === modalRules) closeRulesModal();
+        if (e.target === modalRecords) closeRecordsModal();
+      });
+
+    })();
+  </script>
+</body></html>
