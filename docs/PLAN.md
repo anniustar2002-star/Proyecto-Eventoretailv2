@@ -10,16 +10,29 @@
 - Fuente de verdad visual: `Carrera-de-escaneo-imagenes/stitch_spanish_conversation_assistant/` (PNG + HTML por pantalla) y `.../retail_speed_sprint/DESIGN.md`.
 - Ignorar `Carrera-de-escaneo/code.html` (script roto). `Carrera-de-escaneo/DESIGN.md` solo como referencia de reglas de negocio.
 
-## Stack propuesto
-Next.js (App Router) + TypeScript + Tailwind, fuentes Inter y Plus Jakarta Sans empaquetadas localmente (sin CDN), pensado para TV 50-55" y sin depender de internet.
+## Reglas de negocio confirmadas por el usuario
+- **10 productos** (ver `datos-productos.md`): Leche, Mantequilla, Pasta, Cereal, Aceite, Lata de Maíz, Jarabe para la tos, Jabón Facial, Caja de Acetaminofén, Barra de Chocolate. GTIN de prueba generados por Claude.
+- **Escaneo con pistola USB** (modo teclado): la app tiene un campo siempre enfocado donde se transcribe el código al escanear (termina con Enter).
+- **El orden de escaneo lo marca la "pista"** del producto actual (nivel de dificultad). El orden es **distinto por jugador y por partida**.
+- **El contador** arranca al empezar la partida y se detiene al escanear el último producto; ese tiempo va a la tabla. **Gana el menor tiempo.** No hay corte a 60 s ni penalizaciones (pendiente confirmar qué pasa ante un código equivocado).
+- **Empate:** partida extra con un orden completamente distinto al anterior.
+- **Una caja a la vez**, no simultáneas. No hace falta sincronizar entre cajas.
+- **Sin internet:** se distribuye como app de escritorio con **Electron**, compilada. Datos guardados localmente en el equipo.
+- La carpeta de la app anterior se deja por ahora; se borra más adelante.
+
+## Stack propuesto (actualizado)
+Electron + Vite + React + TypeScript + Tailwind. Sin CDN: fuentes Inter y Plus Jakarta Sans empaquetadas. Pensado para TV 50-55" en pantalla completa.
+Se cambia Next.js por Vite porque con Electron no aporta (no hay servidor) y complica el empaquetado.
+Persistencia: archivo JSON local gestionado por el proceso principal de Electron.
 Proyecto nuevo en `gs1-market/`.
 
 ## Fase 0: Cimientos (antes de la pantalla 1)
-- [ ] Crear `gs1-market/` con Next.js, TypeScript estricto y ESLint (sin `ignoreBuildErrors`).
+- [ ] Crear `gs1-market/` con Electron + Vite + React, TypeScript estricto y ESLint.
 - [ ] Tokens de diseño (colores GS1, tipografía, radios, sombras) desde `DESIGN.md`.
 - [ ] Layout base: cabecera (logo, sede, reloj en vivo) y barra de navegación.
 - [ ] Modelo de datos y estado compartido (equipos, canasta, partida).
-- [ ] Datos de ejemplo de los 8 productos (marcados como provisionales hasta tener los GTIN reales).
+- [ ] Datos de los 10 productos desde `datos-productos.md` (GTIN de prueba) en un único archivo.
+- [ ] Generador de orden aleatorio por jugador y de orden de desempate sin coincidencias.
 - [ ] `.gitignore`, scripts `dev`, `build`, `typecheck`, `lint`.
 
 ## Fase 1: Pantallas (una por una)
@@ -45,16 +58,15 @@ Cronómetro, progreso, producto en curso, mira láser, tique en vivo, panel de j
 Podio Top 3, tabla de equipos, filtros, récords. Se alimenta de las partidas finalizadas.
 
 ## Fase 2: Cierre
-- [ ] Sincronización entre las 3 cajas (según la decisión de arquitectura).
-- [ ] Modo sin conexión y pruebas con pistola real.
+- [ ] Empaquetar la app Electron (instalador) y probar sin internet.
+- [ ] Pruebas con pistola real.
 - [ ] Pruebas de TV (1920x1080 y 4K) y revisión final.
 
-## Preguntas abiertas (bloquean datos reales, no la maqueta)
-1. Los 8 productos definitivos con GTIN-13 reales (Registro y Desafío muestran listas distintas en el diseño).
-2. Reglas del 60 s: ¿se corta a los 60 s o es tiempo objetivo? Penalización: 5 s por error (según captura).
-3. ¿Las 3 cajas juegan a la vez y se ven en una TV central? Define la sincronización.
-4. ¿Hay internet en el sitio?
-5. Los "36 SKUs" de la tabla contradicen los 8 del reto: ¿cuál vale?
-6. Barras inferiores que tapan contenido en el diseño: ¿se mantienen en TV?
-7. Marca: unificar logo/colores de "GS1 Market".
-8. ¿Se elimina del repo la carpeta de la app anterior?
+## Preguntas abiertas
+1. GTIN reales (hoy de prueba).
+2. ¿Qué pasa si escanean un código que no es el de la pista? (propuesta: se ignora con aviso, sin penalización).
+3. ¿Hay un tiempo máximo por partida?
+4. ¿Los equipos de la maqueta siguen (1 a 5 integrantes) o juega una persona a la vez? Se dijo "primero juega Pedro, luego Andrés": se asume un **jugador por partida**.
+5. ¿Qué sistema operativo tendrá el equipo del evento (Windows/Mac)? Define el instalador.
+6. ¿Se mantienen las cajas 1/2/3 del Registro, ahora que solo juega una a la vez?
+7. Marca: unificar logo y colores de "GS1 Market".

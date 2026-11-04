@@ -10,8 +10,9 @@
 - Pantalla 4 (Posiciones): pendiente.
 
 ## Siguiente paso
-Responder preguntas abiertas de `PLAN.md` (las bloqueantes: 1, 3, 4) y empezar la Fase 0.
+El usuario respondió las preguntas bloqueantes (ver `PLAN.md`). Falta su visto bueno para arrancar la Fase 0 y la pantalla 1.
 
 ## Bitácora
 - Informe 00: análisis de la app anterior (descartada) y de la maqueta nueva. Ver `informes/00-analisis-inicial.md`.
 - Decisión: eliminar la fecha del evento del diseño. App anterior descartada.
+- Respuestas del usuario: 10 productos, orden por jugador, gana el menor tiempo, empate con orden distinto, una caja a la vez, Electron sin internet. GTIN de prueba en `datos-productos.md`.
