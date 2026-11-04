@@ -20,3 +20,4 @@ Comandos: `cd gs1-market && npm install && npm run dev` (navegador), `npm test`,
 - Respuestas 2: error de escaneo = +5 s, máximo 1:30, cada caja = equipo de 2 participantes, Windows con instalador al final.
 - Cambio de flujo: botón único INICIAR JUEGO, cola de equipos por orden de caja, "Siguiente" sin volver al Registro, Tabla al final. Pista con foto (pendientes las fotos del usuario, carpeta `gs1-market/src/assets/products/`).
 - Fotos de productos recibidas: 01-05 (leche, mantequilla, pasta, cereal, aceite) en `gs1-market/src/assets/products/` (SVG). Faltan 06-10 (usan icono+nombre provisional). Las SVG traen el nombre impreso en el envase.
+- Fotos de productos 06-10 recibidas: ya están las 10 (SVG) en `gs1-market/src/assets/products/`. Siguiente: pantalla 4 (Tabla de posiciones).

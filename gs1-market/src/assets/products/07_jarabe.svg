@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Jarabe para la tos"><title>Jarabe para la tos</title><ellipse cx="60" cy="108" rx="20" ry="4" fill="#002C6C" opacity=".12"/>
+<rect x="50" y="14" width="20" height="12" rx="2" fill="#002C6C"/>
+<path d="M53 26 h14 v6 l8 8 v62 a4 4 0 0 1 -4 4 h-22 a4 4 0 0 1 -4 -4 v-62 l8 -8 z" fill="#B5522B"/>
+<rect x="45" y="52" width="30" height="36" fill="#FFFFFF"/>
+<rect x="45" y="52" width="30" height="8" fill="#F05587"/>
+<text x="60" y="58.5" font-family="Arial" font-weight="700" font-size="6" fill="#fff" text-anchor="middle">JARABE</text>
+<path d="M60 64 v14 M53 71 h14" stroke="#F05587" stroke-width="4" stroke-linecap="round"/>
+<rect x="48.0" y="81" width="1.6" height="5" fill="#1B2330"/><rect x="50.4" y="81" width="0.8" height="5" fill="#1B2330"/><rect x="52.0" y="81" width="2.4" height="5" fill="#1B2330"/><rect x="55.2" y="81" width="0.8" height="5" fill="#1B2330"/><rect x="57.6" y="81" width="0.8" height="5" fill="#1B2330"/><rect x="59.2" y="81" width="1.6" height="5" fill="#1B2330"/><rect x="61.6" y="81" width="2.4" height="5" fill="#1B2330"/>
+<rect x="49" y="36" width="3.5" height="14" rx="1.7" fill="#fff" opacity=".45"/></svg>

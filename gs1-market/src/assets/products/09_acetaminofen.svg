@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Caja de Acetaminofén"><title>Caja de Acetaminofén</title><ellipse cx="60" cy="108" rx="38" ry="4" fill="#002C6C" opacity=".12"/>
+<rect x="18" y="38" width="80" height="58" rx="3" fill="#FFFFFF" stroke="#DDE4EE" stroke-width="1.5"/>
+<path d="M98 38 l6 -6 v58 l-6 6 z" fill="#C9D2DE"/>
+<path d="M18 38 l6 -6 h80 l-6 6 z" fill="#EEF3F9"/>
+<rect x="18" y="38" width="80" height="18" fill="#00B6DE"/>
+<text x="58" y="50.5" font-family="Arial" font-weight="700" font-size="7.6" fill="#fff" text-anchor="middle">ACETAMINOFÉN</text>
+<text x="40" y="74" font-family="Arial" font-weight="700" font-size="12" fill="#002C6C" text-anchor="middle">500</text>
+<text x="40" y="83" font-family="Arial" font-size="6.5" fill="#002C6C" text-anchor="middle">mg</text>
+<g transform="rotate(-30 76 72)"><rect x="64" y="66" width="24" height="12" rx="6" fill="#F26334"/><rect x="76" y="66" width="12" height="12" rx="6" fill="#FFFFFF" stroke="#F26334" stroke-width="1.5"/><rect x="74" y="66" width="4" height="12" fill="#FFFFFF"/></g>
+<rect x="26.0" y="86" width="1.6" height="6" fill="#1B2330"/><rect x="28.4" y="86" width="0.8" height="6" fill="#1B2330"/><rect x="30.0" y="86" width="2.4" height="6" fill="#1B2330"/><rect x="33.2" y="86" width="0.8" height="6" fill="#1B2330"/><rect x="35.6" y="86" width="0.8" height="6" fill="#1B2330"/><rect x="37.2" y="86" width="1.6" height="6" fill="#1B2330"/><rect x="39.6" y="86" width="2.4" height="6" fill="#1B2330"/></svg>
