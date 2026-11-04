@@ -28,7 +28,7 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
       {/* Columna izquierda */}
       <div className="flex min-h-0 flex-col gap-4">
         <section className="card-glow relative flex min-h-0 flex-1 flex-col justify-between overflow-hidden rounded-3xl bg-white p-9">
-          <img src={bolsas} alt="" aria-hidden className="pointer-events-none absolute right-4 top-20 w-[450px] select-none" />
+          <img src={bolsas} alt="" aria-hidden className="pointer-events-none absolute right-20 top-20 w-[450px] select-none" />
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-extrabold tracking-widest text-gs1-blue">
             <span className="h-2 w-2 rounded-full bg-gs1-orange" /> COMPETICIÓN OFICIAL • GS1 VENEZUELA
           </span>
