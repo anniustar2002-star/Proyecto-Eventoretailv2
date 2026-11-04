@@ -22,6 +22,8 @@ export interface GameResult {
   finished: boolean;
   /** índices de PRODUCTS en el orden que se pidieron */
   order: number[];
+  /** 0/undefined = partida normal; 1, 2... = ronda de desempate */
+  tiebreak?: number;
 }
 
 export interface AppData {

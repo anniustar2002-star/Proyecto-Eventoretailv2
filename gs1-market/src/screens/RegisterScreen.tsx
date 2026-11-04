@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Bath, Bean, Candy, Cuboid, Cylinder, Droplet, Milk, Pencil, Pill, Pipette, Play, Plus, Trash2, User, Users, Wheat, X, type LucideIcon } from 'lucide-react';
+import { ArrowLeft, Pencil, Play, Plus, Trash2, User, Users, X } from 'lucide-react';
+import { PRODUCT_ICONS } from '../lib/productIcons';
 import { PRODUCTS } from '../data/products';
 import { BOXES, MAX_TIME_MS, PENALTY_MS, type BoxId } from '../lib/rules';
 import { formatClock } from '../lib/format';
 import type { AppData, Team } from '../lib/types';
-
-const PRODUCT_ICONS: Record<number, LucideIcon> = {
-  1: Milk, 2: Cuboid, 3: Wheat, 4: Bean, 5: Droplet, 6: Cylinder, 7: Pipette, 8: Bath, 9: Pill, 10: Candy,
-};
 
 const BOX_STYLE: Record<BoxId, { badge: string; ring: string }> = {
   1: { badge: 'bg-gs1-blue text-white', ring: 'ring-gs1-blue/30' },
@@ -17,6 +14,7 @@ const BOX_STYLE: Record<BoxId, { badge: string; ring: string }> = {
 
 interface Props {
   data: AppData;
+  tiebreakTeamIds: string[];
   onSaveTeams: (teams: Team[]) => void;
   onPlay: (teamId: string) => void;
   onBack: () => void;
@@ -24,7 +22,7 @@ interface Props {
 
 type ModalState = { mode: 'create' } | { mode: 'edit'; team: Team } | null;
 
-export function RegisterScreen({ data, onSaveTeams, onPlay, onBack }: Props) {
+export function RegisterScreen({ data, tiebreakTeamIds, onSaveTeams, onPlay, onBack }: Props) {
   const teams = [...data.teams].sort((a, b) => a.box - b.box);
   // Si no hay equipos, se pide crear el primero nada más entrar
   const [modal, setModal] = useState<ModalState>(teams.length === 0 ? { mode: 'create' } : null);
@@ -73,6 +71,7 @@ export function RegisterScreen({ data, onSaveTeams, onPlay, onBack }: Props) {
           <TeamCard
             key={t.id}
             team={t}
+            tiebreak={tiebreakTeamIds.includes(t.id)}
             onPlay={() => onPlay(t.id)}
             onEdit={() => setModal({ mode: 'edit', team: t })}
             onDelete={() => onSaveTeams(data.teams.filter((x) => x.id !== t.id))}
@@ -115,7 +114,7 @@ export function RegisterScreen({ data, onSaveTeams, onPlay, onBack }: Props) {
   );
 }
 
-function TeamCard({ team, onPlay, onEdit, onDelete }: { team: Team; onPlay: () => void; onEdit: () => void; onDelete: () => void }) {
+function TeamCard({ team, tiebreak, onPlay, onEdit, onDelete }: { team: Team; tiebreak: boolean; onPlay: () => void; onEdit: () => void; onDelete: () => void }) {
   const s = BOX_STYLE[team.box];
   const solo = team.players.length === 1 && team.players[0] === team.name;
   const [confirming, setConfirming] = useState(false);
@@ -125,6 +124,7 @@ function TeamCard({ team, onPlay, onEdit, onDelete }: { team: Team; onPlay: () =
         <div className="flex items-center gap-4">
           <span className={`flex h-14 w-14 items-center justify-center rounded-2xl font-display text-3xl font-extrabold ${s.badge}`}>{team.box}</span>
           <div className="font-display text-3xl font-extrabold">CAJA {team.box}</div>
+          {tiebreak && <span className="rounded-lg bg-gs1-orange px-3 py-1 text-sm font-extrabold tracking-widest text-white">DESEMPATE</span>}
         </div>
         <div className="flex gap-2">
           <button onClick={onEdit} aria-label="Editar equipo" className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50"><Pencil size={22} /></button>
@@ -154,7 +154,7 @@ function TeamCard({ team, onPlay, onEdit, onDelete }: { team: Team; onPlay: () =
         </div>
       ) : (
         <button onClick={onPlay} className="mt-auto flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-gs1-orange to-gs1-fuchsia py-4 font-display text-2xl font-extrabold text-white shadow-md shadow-gs1-orange/30 transition active:translate-y-0.5">
-          <Play size={24} /> Jugar con este equipo
+          <Play size={24} /> {tiebreak ? 'Jugar DESEMPATE' : 'Jugar con este equipo'}
         </button>
       )}
     </section>
