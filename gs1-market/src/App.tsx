@@ -23,6 +23,10 @@ export function App() {
   const [queue, setQueue] = useState<string[]>([]);
   const [queueIndex, setQueueIndex] = useState(0);
   const home = () => setScreen('home');
+  // Un juego terminado no se puede repetir con los mismos equipos: el nuevo juego empieza desde cero
+  const newGameIfCompleted = () => {
+    if (data.completed) update(() => ({ teams: [], results: [], completed: false }));
+  };
   const onFinish = useCallback((result: GameResult) => update((d) => ({ ...d, results: [...d.results, result] })), [update]);
   const currentTeam = data.teams.find((t) => t.id === currentTeamId);
   const byBox = [...data.teams].sort((a, b) => a.box - b.box);
@@ -53,7 +57,7 @@ export function App() {
       <Stage>
         <Header />
         {!loaded ? null : screen === 'home' ? (
-          <HomeScreen data={data} onStart={() => setScreen('register')} onRecords={() => setScreen('leaderboard')} />
+          <HomeScreen data={data} onStart={() => { newGameIfCompleted(); setScreen('register'); }} onRecords={() => setScreen('leaderboard')} />
         ) : screen === 'register' ? (
           <RegisterScreen
           data={data}
@@ -72,7 +76,13 @@ export function App() {
             turn={{ current: queueIndex + 1, total: queue.length }}
             nextTeam={nextTeam}
             onFinish={onFinish}
-            onBack={() => setScreen('register')}
+            onBack={() => {
+              // Cancelar la partida cancela el juego: se borran equipos y resultados y se vuelve al inicio
+              update(() => ({ teams: [], results: [], completed: false }));
+              setQueue([]);
+              setCurrentTeamId(null);
+              setScreen('home');
+            }}
             onNext={() => {
               setQueueIndex(queueIndex + 1);
               beginGame(queue[queueIndex + 1]);
@@ -81,7 +91,10 @@ export function App() {
               const pending = tiebreakPending(data.results);
               startQueue(byBox.filter((t) => pending?.teamIds.includes(t.id)).map((t) => t.id));
             }}
-            onLeaderboard={() => setScreen('leaderboard')}
+            onLeaderboard={() => {
+              update((d) => ({ ...d, completed: true }));
+              setScreen('leaderboard');
+            }}
           />
         ) : (
           <Placeholder title="Desafío en Vivo" onBack={() => setScreen('register')} />
@@ -89,10 +102,14 @@ export function App() {
 ) : (
           <LeaderboardScreen
             data={data}
+            completed={!!data.completed}
             onHome={home}
-            onRegister={() => setScreen('register')}
+            onRegister={() => {
+              newGameIfCompleted();
+              setScreen('register');
+            }}
             onTiebreak={startGame}
-            onResetResults={() => update((d) => ({ ...d, results: [] }))}
+            onResetResults={() => update((d) => ({ ...d, results: [], completed: false }))}
           />
         )}
       </Stage>

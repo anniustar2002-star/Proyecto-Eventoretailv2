@@ -23,3 +23,12 @@ Referencia: `gs1_market_tabla_de_posiciones_tv_interactiva`, adaptada a las regl
 
 ## Nota
 - El Inicio muestra datos de ejemplo mientras no hay resultados reales; esta tabla muestra el estado vacío real (no usa datos de ejemplo).
+
+## Cambios tras la revisión del usuario
+- **Podio corregido**: el bloque del oro es el más alto (antes estaba invertido con la plata). Captura `04-posiciones.png` actualizada.
+- **Un juego terminado no se repite**: al llegar a la tabla final (todos jugaron y no hay desempate pendiente) el juego queda marcado como terminado. Al volver al Inicio, el Inicio vuelve a mostrar los **datos de ejemplo** y, al pulsar "¡Comenzar partida!" (o "Nuevo juego" en la tabla), **se borran equipos y resultados** y se empieza desde cero con la ventana de crear equipo. Hasta entonces la tabla final sigue consultable ("Ver Tabla de Posiciones").
+- **Cancelar partida (en el Desafío)** cancela el juego completo: pide confirmación ("¿Cancelar el juego? Se borran equipos y resultados."), borra equipos y resultados y vuelve al Inicio, listo para empezar de cero.
+- "Reiniciar resultados" (en la tabla) sigue borrando solo los tiempos y conserva los equipos.
+
+## Verificación de estos cambios
+Prueba en navegador: 3 equipos juegan y llegan a la tabla (botón "Nuevo juego", podio con alturas 176/256/128 px = plata/oro/bronce), "Inicio" muestra los datos de ejemplo, "Comenzar" abre la ventana de crear equipo con el estado `{"teams":[],"results":[],"completed":false}`. Cancelar a mitad de la primera partida: borra todo y vuelve al Inicio. Sin errores de consola.

@@ -21,3 +21,4 @@ Comandos: `cd gs1-market && npm install && npm run dev` (navegador), `npm test`,
 - Cambio de flujo: botón único INICIAR JUEGO, cola de equipos por orden de caja, "Siguiente" sin volver al Registro, Tabla al final. Pista con foto (pendientes las fotos del usuario, carpeta `gs1-market/src/assets/products/`).
 - Fotos de productos recibidas: 01-05 (leche, mantequilla, pasta, cereal, aceite) en `gs1-market/src/assets/products/` (SVG). Faltan 06-10 (usan icono+nombre provisional). Las SVG traen el nombre impreso en el envase.
 - Fotos de productos 06-10 recibidas: ya están las 10 (SVG) en `gs1-market/src/assets/products/`. Siguiente: pantalla 4 (Tabla de posiciones).
+- Podio corregido (oro más alto). Juego terminado => siguiente juego desde cero (Inicio vuelve a datos de ejemplo). Cancelar partida => cancela el juego completo y vuelve al Inicio.

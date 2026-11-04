@@ -8,6 +8,8 @@ import type { AppData, GameResult } from '../lib/types';
 interface Props {
   data: AppData;
   onHome: () => void;
+  /** true si el juego ya terminó: el botón pasa a "Nuevo juego" y empieza desde cero */
+  completed: boolean;
   onRegister: () => void;
   onTiebreak: () => void;
   onResetResults: () => void;
@@ -21,7 +23,7 @@ const MEDAL = [
 
 const initials = (name: string) => name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
 
-export function LeaderboardScreen({ data, onHome, onRegister, onTiebreak, onResetResults }: Props) {
+export function LeaderboardScreen({ data, completed, onHome, onRegister, onTiebreak, onResetResults }: Props) {
   const [confirmReset, setConfirmReset] = useState(false);
   const ranked = ranking(data.results);
   const leader = ranked[0];
@@ -40,7 +42,7 @@ export function LeaderboardScreen({ data, onHome, onRegister, onTiebreak, onRese
           <p className="mt-1 text-xl text-on-surface-variant">Gana el equipo que escanee más rápido. Se cuentan las penalizaciones.</p>
         </div>
         <div className="flex items-center gap-4">
-          <button onClick={onRegister} className="card-glow flex items-center gap-3 rounded-2xl bg-white px-6 py-4 text-xl font-semibold text-gs1-blue transition hover:bg-slate-50 active:translate-y-0.5"><ClipboardList size={24} /> Registro</button>
+          <button onClick={onRegister} className="card-glow flex items-center gap-3 rounded-2xl bg-white px-6 py-4 text-xl font-semibold text-gs1-blue transition hover:bg-slate-50 active:translate-y-0.5"><ClipboardList size={24} /> {completed ? 'Nuevo juego' : 'Registro'}</button>
           <button onClick={() => setConfirmReset(true)} disabled={data.results.length === 0} className="card-glow flex items-center gap-3 rounded-2xl bg-white px-6 py-4 text-xl font-semibold text-red-600 transition enabled:hover:bg-red-50 enabled:active:translate-y-0.5 disabled:opacity-40"><RotateCcw size={24} /> Reiniciar resultados</button>
           <button onClick={onHome} className="card-glow flex items-center gap-3 rounded-2xl bg-white px-6 py-4 text-xl font-semibold text-gs1-blue transition hover:bg-slate-50 active:translate-y-0.5"><ArrowLeft size={24} /> Inicio</button>
         </div>
@@ -72,7 +74,8 @@ export function LeaderboardScreen({ data, onHome, onRegister, onTiebreak, onRese
                 if (!slot) return <div key={i} className="w-48" />;
                 const { r, place } = slot;
                 const m = MEDAL[place];
-                const heights = ['h-44', 'h-64', 'h-32'];
+                // altura por puesto: oro (el más alto), plata, bronce
+                const heights = ['h-64', 'h-44', 'h-32'];
                 return (
                   <div key={r.teamId} className="flex w-52 flex-col items-center">
                     {place === 0 && <Crown size={44} className="pop mb-1 text-amber-500" />}

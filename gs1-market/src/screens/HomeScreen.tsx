@@ -16,8 +16,8 @@ interface Props {
 
 export function HomeScreen({ data, onStart, onRecords }: Props) {
   const [rulesOpen, setRulesOpen] = useState(false);
-  // Mientras no haya resultados reales se muestran datos de ejemplo
-  const results = data.results.length === 0 && SHOW_DEMO_WHEN_EMPTY ? DEMO_RESULTS : data.results;
+  // Sin resultados, o con el juego ya terminado (empieza uno nuevo desde cero), se muestran datos de ejemplo
+  const results = (data.results.length === 0 || data.completed) && SHOW_DEMO_WHEN_EMPTY ? DEMO_RESULTS : data.results;
   const top3 = useMemo(() => ranking(results).slice(0, 5), [results]);
   const best = top3[0];
   const record = best?.timeMs;

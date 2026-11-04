@@ -69,6 +69,8 @@ Podio Top 3, tabla de equipos, filtros, récords. Se alimenta de las partidas fi
 ## Flujo de juego (confirmado)
 Registro (crear equipos) -> **INICIAR JUEGO** -> los equipos juegan en cola por orden de caja, sin volver al Registro ("Siguiente" tras cada uno) -> al terminar el último, **Tabla de posiciones**. Empate en el 1er puesto: ronda de desempate solo entre los empatados. En la pista del Desafío se muestra la **foto** del producto, no el nombre (fotos en `src/assets/products/`).
 
+- **Un juego terminado no se repite con los mismos equipos**: al terminar y volver a empezar se parte de cero (sin equipos ni resultados) y el Inicio muestra datos de ejemplo. **Cancelar partida** (Desafío) cancela el juego completo y lo reinicia.
+
 ## Decisiones adicionales (confirmadas)
 - Si se llega a 1:30 sin terminar: la partida se corta; se clasifica por **productos escaneados** (más es mejor) y luego por tiempo.
 - Las **3 cajas existen de antemano** y se rellenan. Puede haber 1, 2 o 3 cajas activas y 1 o 2 jugadores por caja (mínimo 1 jugador, máximo 2).

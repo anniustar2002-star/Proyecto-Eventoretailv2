@@ -29,4 +29,6 @@ export interface GameResult {
 export interface AppData {
   teams: Team[];
   results: GameResult[];
+  /** el juego terminó (se llegó a la tabla final): el siguiente juego empieza desde cero */
+  completed?: boolean;
 }

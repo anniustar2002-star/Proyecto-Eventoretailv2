@@ -251,9 +251,9 @@ export function ChallengeScreen({ team, data, tiebreak, turn, nextTeam, onFinish
           <div className="mt-4 flex items-center justify-between border-t border-slate-200 pt-4">
             {confirmCancel ? (
               <div className="flex w-full items-center gap-3">
-                <span className="flex-1 text-lg font-semibold text-red-700">¿Cancelar la partida? No se guarda.</span>
+                <span className="flex-1 text-lg font-semibold text-red-700">¿Cancelar el juego? Se borran equipos y resultados.</span>
                 <button onClick={() => setConfirmCancel(false)} className="rounded-xl border border-slate-300 px-5 py-2.5 text-lg font-semibold">No</button>
-                <button onClick={onBack} className="rounded-xl bg-red-600 px-5 py-2.5 text-lg font-bold text-white">Sí, cancelar</button>
+                <button onClick={onBack} className="rounded-xl bg-red-600 px-5 py-2.5 text-lg font-bold text-white">Sí, cancelar todo</button>
               </div>
             ) : (
               <>
