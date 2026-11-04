@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+<!-- STITCH_THREEJS_START:ANIMATION_52 class="fixed inset-0 w-full h-full bg-transparent" -->
+<div class="fixed inset-0 w-full h-full bg-transparent" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_52" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_52');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  # GS1 Market • Sistema de Reto de Escaneo de Alta Velocidad (TV Interactiva 50"-55")
+## Especificación de Arquitectura, Frontend y Reglas de Negocio para Implementación
+
+Este documento contiene la entrega completa del sistema interactivo **GS1 Market (Fondo Blanco)** para ser transferido a un repositorio de código (GitHub / Claude Code) e iniciar la programación del frontend/fullstack.
+
+---
+
+### 1. Resumen de Pantallas Oficiales (Última Versión)
+
+| # | Pantalla | Archivo Sugerido | Propósito Clave |
+|---|---|---|---|
+| **1** | **Hub / Inicio TV** | `src/pages/HomeTV.tsx` / `index.html` | Bienvenida, reloj en vivo, demostración de haz óptico GS1 y botón de largada. |
+| **2** | **Registro de Escuadrón TV** | `src/pages/RegisterTV.tsx` | Asignación de caja (1, 2, 3), configuración de 1 a 5 integrantes y checklist de 8 SKUs. |
+| **3** | **Desafío en Vivo TV** | `src/pages/ChallengeTV.tsx` | Cronómetro a 60 FPS, mira óptica láser con audio sintetizado, tique de supermercado en tiempo real y panel de comisario. |
+| **4** | **Tabla de Posiciones TV** | `src/pages/LeaderboardTV.tsx` | Podio Top 3 animado, tabla general de clasificación con estándares GS1 (Digital Link, 2D Barcode, GTIN-13) y filtros rápidos. |
+
+---
+
+### 2. Tokens de Marca y Paleta de Color (Design Tokens)
+
+Basado en el manual oficial de **GS1** y la paleta de eventos de retail:
+
+```css
+:root {
+  /* Primarios GS1 */
+  --gs1-blue: #002C6C;        /* Azul institucional primario */
+  --gs1-orange: #F26334;      /* Naranja acento / llamadas a la acción principales */
+  --gs1-dark-gray: #454545;   /* Texto principal y neutral oscuro */
+  --gs1-light-gray: #F4F4F4;  /* Contenedores y grises de soporte */
+  --surface-white: #FFFFFF;   /* Fondo limpio para televisores 50-55" */
+  
+  /* Secundarios GS1 (Acentos de Categoría y Podio) */
+  --gs1-raspberry: #F05587;   /* 1° Lugar / Retail / Fucsia destacado */
+  --gs1-grass: #7AC143;       /* 2° Lugar / Checks de éxito / Estado activo */
+  --gs1-lavender: #AF96D4;    /* 3° Lugar / General Merchandise */
+  --gs1-purple: #BF83B9;      /* Acento secundario */
+  --gs1-sky: #00B6DE;         /* Conexiones / Trazabilidad */
+  --gs1-gold: #C4B000;        /* Trofeos / Récords */
+  
+  /* Tipografía */
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Plus Jakarta Sans', var(--font-family);
+}
+```
+
+---
+
+### 3. Modelo de Datos (TypeScript Interfaces)
+
+```typescript
+export interface TeamMember {
+  id: string;
+  name: string;
+  role: 'Capitán / Pistola 2D' | 'Acomodador en Cinta' | 'Empaque & Validación' | 'Soporte';
+  order: number;
+}
+
+export interface BasketItem {
+  id: string;
+  sku: string;
+  gtin: string;
+  name: string;
+  category: 'Bebida' | 'Cereal' | 'Detergente' | 'Lácteo' | 'Snack' | 'Aseo' | 'Enlatado' | '2D Barcode';
+  status: 'PENDING' | 'SCANNED';
+  scannedAtSeconds?: number;
+}
+
+export interface TournamentMatch {
+  matchId: string;
+  stationId: 'CAJA_1' | 'CAJA_2' | 'CAJA_3';
+  teamName: string;
+  companyName: string; // Ej: "Automercados Plaza's", "Gama Express", "Central Madeirense"
+  members: TeamMember[];
+  basket: BasketItem[];
+  elapsedMilliseconds: number;
+  penaltiesCount: number;
+  penaltySecondsTotal: number;
+  finalTimeFormatted: string;
+  status: 'IDLE' | 'COUNTDOWN' | 'RUNNING' | 'PAUSED' | 'FINISHED';
+  gs1StandardUsed: 'GS1 Digital Link' | 'GS1 DataBar' | 'EAN-13 Fast' | 'GS1-128 Farma' | 'RFID & 2D QR';
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  teamName: string;
+  companyName: string;
+  category: 'Retailer' | 'Consumo' | 'Logística';
+  officialTime: string;
+  timeSeconds: number;
+  skusCount: number;
+  errorsCount: number;
+  gs1Standard: string;
+  recordDifference: string;
+  badgeColor: string;
+}
+```
+
+---
+
+### 4. Lógica de Audio y Efectos Especiales (Web Audio API)
+
+Para evitar dependencias pesadas de audio en assets externos, se implementa mediante síntesis pura:
+
+```javascript
+// Beep oficial de escaneo de alta velocidad (880Hz -> 1760Hz rápido)
+function playScannerBeep(type = 'success') {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  
+  if (type === 'success') {
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(1400, ctx.currentTime);
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.08);
+  } else if (type === 'error') {
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(250, ctx.currentTime);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.25);
+  }
+}
+```
+
+---
+
+### 5. Estructura de Proyecto Recomendada (Stack: Vite + React / Next.js + Tailwind CSS)
+
+```
+gs1-market-arena/
+├── README.md
+├── package.json
+├── tailwind.config.js
+├── src/
+│   ├── assets/
+│   │   └── logo-gs1-market.svg
+│   ├── components/
+│   │   ├── NavigationHeader.tsx       // Barra superior con reloj en vivo y tags
+│   │   ├── BottomTabBar.tsx           // Barra inferior para saltar entre pantallas
+│   │   ├── LaserScanViewport.tsx      // Mira óptica animada con barrido láser
+│   │   ├── StopwatchDisplay.tsx       // Cronómetro 60 FPS milisegundos
+│   │   ├── ReceiptTicket.tsx          // Tique de caja con checks automáticos
+│   │   ├── ChampionPodium.tsx         // Podio Top 3 con estética GS1
+│   │   └── ModalPenalty.tsx           // Modal de comisarios y tiempos
+│   ├── hooks/
+│   │   ├── useStopwatch.ts            // Hook de cronómetro de alta precisión
+│   │   ├── useBarcodeScanner.ts       // Hook para conectar pistolas lectoras USB/HID
+│   │   └── useAudioSynth.ts           // Web Audio API beeps
+│   ├── data/
+│   │   └── defaultLeaderboard.ts      // Datos simulados de escuadrones y marcas
+│   └── pages/
+│       ├── HomeTV.tsx                 // Pantalla 1
+│       ├── TeamRegisterTV.tsx         // Pantalla 2
+│       ├── LiveChallengeTV.tsx        // Pantalla 3
+│       └── LeaderboardTV.tsx          // Pantalla 4
+```
+
+---
+
+### 6. Integración con Hardware Físico (Lectores de Código de Barras USB / BLE)
+
+Para que funcione en el evento de Caracas con pistolas lectoras reales (Honeywell, Zebra, Datalogic):
+- Las pistolas de código de barras funcionan en modo **HID (Human Interface Device / Emulación de Teclado)**.
+- Se escucha el evento global `window.addEventListener('keydown', ...)` acumulando los caracteres hasta recibir un `Enter` (código ASCII 13).
+- Al detectar la cadena GTIN (13 dígitos) o QR GS1 Digital Link, se dispara automáticamente la validación del SKU correspondiente sin necesidad de hacer clic manual con el mouse.
+
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_52 -->
+</body>
+</html>
