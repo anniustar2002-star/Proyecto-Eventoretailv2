@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ScanLine } from 'lucide-react';
+import logo from '../assets/logo-gs1-venezuela.png';
 
 function useClock() {
   const [now, setNow] = useState(() => new Date());
@@ -16,9 +16,7 @@ export function Header() {
   return (
     <header className="relative z-10 flex items-center justify-between border-b border-slate-200 bg-white/90 px-10 py-4 backdrop-blur">
       <div className="flex items-center gap-5">
-        <div className="flex h-14 w-14 items-center justify-center rounded-2xl border-2 border-gs1-purple/40 bg-white text-gs1-orange shadow-sm">
-          <ScanLine size={30} />
-        </div>
+        <img src={logo} alt="GS1 Venezuela" className="h-16 w-auto" />
         <div className="font-display text-4xl font-extrabold tracking-tight">
           <span className="text-gs1-blue">GS1</span> <span className="text-gs1-orange">Market</span>
         </div>
