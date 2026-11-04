@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { BookOpen, ChartColumn, Medal, Play, ShoppingBasket, Timer, Trophy, UsersRound, Zap, X } from 'lucide-react';
+import bolsas from '../assets/retail-bolsas.svg';
 import { DEMO_RESULTS, SHOW_DEMO_WHEN_EMPTY } from '../data/demoResults';
 import { TOTAL_PRODUCTS } from '../data/products';
 import { formatClock, formatShort } from '../lib/format';
@@ -27,6 +28,7 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
       {/* Columna izquierda */}
       <div className="flex min-h-0 flex-col gap-4">
         <section className="card-glow relative flex min-h-0 flex-1 flex-col justify-between overflow-hidden rounded-3xl bg-white p-9">
+          <img src={bolsas} alt="" aria-hidden className="pointer-events-none absolute right-4 top-20 w-[450px] select-none" />
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-extrabold tracking-widest text-gs1-blue">
             <span className="h-2 w-2 rounded-full bg-gs1-orange" /> COMPETICIÓN OFICIAL • GS1 VENEZUELA
           </span>
@@ -34,7 +36,7 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
             La Carrera de Escaneo de <span className="text-gs1-blue">GS1</span>{' '}
             <span className="bg-gradient-to-r from-gs1-fuchsia to-gs1-purple bg-clip-text text-transparent">Market</span>
           </h1>
-          <p className="mt-4 max-w-2xl text-2xl leading-snug text-on-surface-variant">
+          <p className="mt-4 max-w-[27rem] text-2xl leading-snug text-on-surface-variant">
             Demuestra la velocidad, precisión y sincronía de tu equipo en la caja registradora de alta tecnología.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">

@@ -35,3 +35,4 @@ Estado: **lista para revisión del usuario**. Captura: `01-inicio.png` (compara 
 - **Datos de ejemplo** (`src/data/demoResults.ts`): mientras no haya resultados reales, el Inicio muestra 5 equipos de muestra (récord, Top 3 y contadores). Desaparecen solos con la primera partida real. Se apagan con `SHOW_DEMO_WHEN_EMPTY = false`.
 - **Sin scroll (pantalla pública):** la app se dibuja en un lienzo fijo de 1920x1080 (`src/components/Stage.tsx`) que se escala para caber en cualquier ventana, sin barras de desplazamiento. Verificado en 1920x1080, 1920x870, 1366x768 y 3840x2160 (scroll = 0). **Todas las pantallas siguientes deben caber en ese lienzo.**
 - La tabla rápida muestra ahora el **Top 5**.
+- Ilustración animada de bolsas GS1 (`src/assets/retail-bolsas.svg`, enviada por el usuario) en el hueco de la tarjeta principal, a la derecha del título.

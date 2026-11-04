@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 400" width="480" height="400" role="img" aria-label="Bolsas de compras con etiqueta de código de barras GS1 siendo escaneada">
+<title>Retail GS1: bolsas de compras</title>
+<style>
+  .float1{animation:float 3.6s ease-in-out infinite}
+  .float2{animation:float 3.6s ease-in-out infinite;animation-delay:-1.2s}
+  .float3{animation:float 3.6s ease-in-out infinite;animation-delay:-2.4s}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  .sh1{animation:sh 3.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+  .sh2{animation:sh 3.6s ease-in-out infinite;animation-delay:-1.2s;transform-box:fill-box;transform-origin:center}
+  .sh3{animation:sh 3.6s ease-in-out infinite;animation-delay:-2.4s;transform-box:fill-box;transform-origin:center}
+  @keyframes sh{0%,100%{transform:scaleX(1);opacity:.18}50%{transform:scaleX(.86);opacity:.11}}
+  .tag{animation:swing 2.4s ease-in-out infinite;transform-origin:318px 132px}
+  @keyframes swing{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+  .scan{animation:scan 3s ease-in-out infinite}
+  @keyframes scan{0%{transform:translateY(0);opacity:0}10%{opacity:1}45%{transform:translateY(34px);opacity:1}55%,100%{transform:translateY(34px);opacity:0}}
+  .ok{animation:ok 3s ease-out infinite;transform-box:fill-box;transform-origin:center;opacity:0}
+  @keyframes ok{0%,46%{opacity:0;transform:scale(.4)}54%{opacity:1;transform:scale(1.12)}62%{transform:scale(1)}85%{opacity:1}100%{opacity:0;transform:translateY(-8px)}}
+  .tw{animation:tw 2.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+  @keyframes tw{0%,100%{opacity:.2;transform:scale(.6)}50%{opacity:1;transform:scale(1)}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important}.ok{opacity:1}}
+</style>
+
+<!-- fondo -->
+<circle cx="240" cy="205" r="150" fill="#FFEDF3"/>
+<circle cx="372" cy="92" r="34" fill="#FFF1EA"/>
+<circle cx="96" cy="110" r="22" fill="#E5F7FC"/>
+
+<!-- sombras -->
+<ellipse class="sh2" cx="118" cy="352" rx="56" ry="7" fill="#002C6C"/>
+<ellipse class="sh1" cx="240" cy="358" rx="78" ry="8" fill="#002C6C"/>
+<ellipse class="sh3" cx="365" cy="352" rx="52" ry="7" fill="#002C6C"/>
+
+<!-- BOLSA IZQUIERDA (naranja) -->
+<g class="float2">
+  <!-- productos que asoman -->
+  <rect x="80" y="176" width="34" height="52" rx="3" fill="#002C6C"/>
+  <rect x="84" y="186" width="26" height="12" rx="2" fill="#00B6DE"/>
+  <rect x="86" y="204" width="14" height="3" rx="1.5" fill="#fff" opacity=".7"/>
+  <path d="M118 196 h22 v-14 l-6 -8 h-10 l-6 8 z" fill="#ffffff"/>
+  <rect x="118" y="196" width="22" height="32" fill="#ffffff"/>
+  <rect x="118" y="204" width="22" height="9" fill="#00B6DE"/>
+  <!-- cuerpo -->
+  <path d="M70 214 h96 l-6 132 h-84 z" fill="#F26334"/>
+  <path d="M70 214 h96 v12 h-96 z" fill="#D9532A"/>
+  <path d="M96 214 c0 -34 44 -34 44 0" fill="none" stroke="#D9532A" stroke-width="6" stroke-linecap="round"/>
+  <rect x="96" y="262" width="44" height="30" rx="6" fill="#fff"/>
+  <text x="118" y="283" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="15" fill="#F26334" text-anchor="middle">GS1</text>
+</g>
+
+<!-- BOLSA DERECHA (azul) -->
+<g class="float3">
+  <rect x="338" y="186" width="18" height="40" rx="4" fill="#7AC143"/>
+  <rect x="342" y="174" width="10" height="14" rx="2" fill="#7AC143"/>
+  <rect x="341" y="168" width="12" height="7" rx="2" fill="#F05587"/>
+  <rect x="360" y="196" width="26" height="32" rx="4" fill="#FBB034"/>
+  <rect x="360" y="204" width="26" height="8" fill="#fff" opacity=".8"/>
+  <path d="M320 220 h90 l-6 126 h-78 z" fill="#002C6C"/>
+  <path d="M320 220 h90 v11 h-90 z" fill="#001C47"/>
+  <path d="M344 220 c0 -30 40 -30 40 0" fill="none" stroke="#001C47" stroke-width="6" stroke-linecap="round"/>
+  <!-- código en la bolsa -->
+  <g transform="translate(343 270)" fill="#fff">
+    <rect x="0" width="2" height="24"/><rect x="4" width="1" height="24"/><rect x="7" width="3" height="24"/><rect x="12" width="1" height="24"/>
+    <rect x="15" width="2" height="24"/><rect x="19" width="1" height="24"/><rect x="22" width="3" height="24"/><rect x="27" width="1" height="24"/>
+    <rect x="30" width="2" height="24"/><rect x="34" width="1" height="24"/><rect x="37" width="3" height="24"/><rect x="42" width="1" height="24"/>
+  </g>
+</g>
+
+<!-- BOLSA CENTRAL (raspberry, retail) -->
+<g class="float1">
+  <!-- productos -->
+  <rect x="178" y="124" width="22" height="90" rx="11" fill="#E9B872" transform="rotate(-14 189 170)"/>
+  <path d="M184 130 l12 -4 M182 146 l12 -4 M181 162 l12 -4" stroke="#C99550" stroke-width="3" stroke-linecap="round" transform="rotate(-14 189 170)"/>
+  <rect x="214" y="132" width="36" height="74" rx="4" fill="#FFFFFF"/>
+  <rect x="214" y="150" width="36" height="22" fill="#F05587"/>
+  <rect x="220" y="157" width="24" height="3" rx="1.5" fill="#fff"/>
+  <rect x="220" y="163" width="16" height="3" rx="1.5" fill="#fff"/>
+  <circle cx="276" cy="170" r="20" fill="#7AC143"/>
+  <circle cx="262" cy="160" r="14" fill="#9DBB68"/>
+  <path d="M276 150 q6 -10 14 -10" stroke="#3E7D21" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- cuerpo -->
+  <path d="M164 190 h152 l-10 158 h-132 z" fill="#F05587"/>
+  <path d="M164 190 h152 v14 h-152 z" fill="#D2416F"/>
+  <path d="M206 190 c0 -50 68 -50 68 0" fill="none" stroke="#D2416F" stroke-width="8" stroke-linecap="round"/>
+  <!-- distintivo -->
+  <circle cx="240" cy="270" r="34" fill="#fff"/>
+  <circle cx="240" cy="270" r="27" fill="#002C6C"/>
+  <path d="M226 254 a22 22 0 0 0 0 32 M232 258 a16 16 0 0 0 0 24" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <text x="247" y="276" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="16" fill="#fff" text-anchor="middle">GS1</text>
+
+  <!-- ETIQUETA COLGANTE CON CÓDIGO -->
+  <path d="M274 190 C 290 160, 308 140, 318 132" fill="none" stroke="#002C6C" stroke-width="1.6"/>
+  <g class="tag">
+    <path d="M300 136 h36 l8 8 v52 a4 4 0 0 1 -4 4 h-44 a4 4 0 0 1 -4 -4 v-52 z" fill="#fff" stroke="#E3E8F1" stroke-width="1.5"/>
+    <circle cx="318" cy="142" r="3" fill="#FFEDF3" stroke="#D2416F" stroke-width="1.4"/>
+    <g fill="#1B2330">
+      <rect x="301" y="154" width="2" height="30"/><rect x="305" y="154" width="1" height="30"/><rect x="308" y="154" width="3" height="30"/>
+      <rect x="313" y="154" width="1" height="30"/><rect x="316" y="154" width="2" height="30"/><rect x="320" y="154" width="1" height="30"/>
+      <rect x="323" y="154" width="3" height="30"/><rect x="328" y="154" width="1" height="30"/><rect x="331" y="154" width="2" height="30"/>
+      <rect x="335" y="154" width="1" height="30"/><rect x="338" y="154" width="2" height="30"/>
+    </g>
+    <text x="320" y="194" font-family="Arial,Helvetica,sans-serif" font-size="6.5" fill="#1B2330" text-anchor="middle">7591234567894</text>
+    <!-- línea de escaneo -->
+    <g class="scan">
+      <rect x="294" y="152" width="52" height="2.4" rx="1.2" fill="#FF2D55"/>
+      <rect x="294" y="146" width="52" height="8" fill="#FF2D55" opacity=".18"/>
+    </g>
+  </g>
+</g>
+
+<!-- check de lectura correcta -->
+<g class="ok">
+  <circle cx="372" cy="128" r="15" fill="#00A35A"/>
+  <path d="M365 128 l5 5 l9 -10" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+
+<!-- destellos -->
+<g fill="#F26334" class="tw"><path d="M120 120 l3 9 l9 3 l-9 3 l-3 9 l-3 -9 l-9 -3 l9 -3 z"/></g>
+<g fill="#00B6DE" class="tw" style="animation-delay:-1s"><path d="M410 250 l2.4 7 l7 2.4 l-7 2.4 l-2.4 7 l-2.4 -7 l-7 -2.4 l7 -2.4 z"/></g>
+<g fill="#F05587" class="tw" style="animation-delay:-1.9s"><path d="M196 92 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 z"/></g>
+<circle class="tw" style="animation-delay:-.6s" cx="60" cy="260" r="4" fill="#FBB034"/>
+<circle class="tw" style="animation-delay:-2.2s" cx="430" cy="170" r="3.5" fill="#7AC143"/>
+</svg>
