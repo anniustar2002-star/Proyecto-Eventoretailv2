@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { MapPin, ScanLine } from 'lucide-react';
-
-export const VENUE = 'Hotel Eurobuilding • Caracas';
+import { ScanLine } from 'lucide-react';
 
 function useClock() {
   const [now, setNow] = useState(() => new Date());
@@ -26,9 +24,6 @@ export function Header() {
         </div>
         <div className="mx-2 h-9 w-px bg-slate-200" />
         <span className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-sm font-bold text-gs1-blue">#GS1MARKET</span>
-        <span className="flex items-center gap-1.5 text-base text-on-surface-variant">
-          <MapPin size={16} /> {VENUE}
-        </span>
       </div>
       <div className="flex items-center gap-8">
         <span className="flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-5 py-2 text-base font-bold tracking-wide text-green-800">

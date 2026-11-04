@@ -6,7 +6,6 @@ import { formatClock, formatShort } from '../lib/format';
 import { ranking } from '../lib/ranking';
 import { MAX_PLAYERS_PER_BOX, MAX_TIME_MS, PENALTY_MS } from '../lib/rules';
 import type { AppData } from '../lib/types';
-import { VENUE } from '../components/Header';
 
 interface Props {
   data: AppData;
@@ -53,7 +52,6 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
             Demuestra la velocidad, precisión y sincronía de tu equipo en la caja registradora de alta tecnología.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Chip>{VENUE}</Chip>
             <Chip>#GS1MARKET</Chip>
           </div>
           <div className="mt-8 grid grid-cols-3 gap-5 border-t border-slate-200 pt-8">
@@ -134,9 +132,8 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
               </div>
             ))}
           </div>
-          <div className="mt-5 flex items-center justify-between rounded-2xl border border-blue-100 bg-blue-50/60 px-5 py-3 text-base">
-            <span><b>{data.teams.length}</b> {data.teams.length === 1 ? 'equipo registrado' : 'equipos registrados'}</span>
-            <span className="font-bold text-gs1-blue">{VENUE.split(' • ')[0]}</span>
+          <div className="mt-5 rounded-2xl border border-blue-100 bg-blue-50/60 px-5 py-3 text-base">
+            <b>{data.teams.length}</b> {data.teams.length === 1 ? 'equipo registrado' : 'equipos registrados'}
           </div>
         </section>
       </div>

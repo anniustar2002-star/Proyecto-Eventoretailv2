@@ -67,7 +67,7 @@ Podio Top 3, tabla de equipos, filtros, récords. Se alimenta de las partidas fi
 ## Decisiones adicionales (confirmadas)
 - Si se llega a 1:30 sin terminar: la partida se corta; se clasifica por **productos escaneados** (más es mejor) y luego por tiempo.
 - Las **3 cajas existen de antemano** y se rellenan. Puede haber 1, 2 o 3 cajas activas y 1 o 2 jugadores por caja (mínimo 1 jugador, máximo 2).
-- Se mantiene la sede "Hotel Eurobuilding • Caracas" en el diseño; solo se quitó la **fecha**.
+- **Sin fecha ni ubicación del evento** en la app: se usará en varios eventos. Si más adelante hace falta, será un nombre de evento configurable.
 
 ## Preguntas abiertas
 1. GTIN reales (hoy de prueba).

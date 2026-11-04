@@ -15,7 +15,7 @@ Estado: **lista para revisión del usuario**. Captura: `01-inicio.png` (compara 
 - **Sin fecha** del evento (ni en cabecera, chips ni pie). El reloj muestra solo la hora.
 - 8 SKU -> 10 productos; "máx. 5 por equipo" -> 2; "60s" -> 1:30; "Leídos 0/8" -> 0/10.
 - Se quitó el botón de sonido y el pie de página con fecha. "Ver Récords del Día" -> "Ver Tabla de Posiciones".
-- Se mantiene la sede "Hotel Eurobuilding • Caracas".
+- **Se quitó también la ubicación del evento** (la app se usa en varios eventos): cabecera, chip y tarjeta de equipos registrados.
 - El simulador ahora reconoce los GTIN reales de la canasta y avisa si el código no pertenece.
 
 ## Verificación
