@@ -14,14 +14,16 @@
 - **10 productos** (ver `datos-productos.md`): Leche, Mantequilla, Pasta, Cereal, Aceite, Lata de Maíz, Jarabe para la tos, Jabón Facial, Caja de Acetaminofén, Barra de Chocolate. GTIN de prueba generados por Claude.
 - **Escaneo con pistola USB** (modo teclado): la app tiene un campo siempre enfocado donde se transcribe el código al escanear (termina con Enter).
 - **El orden de escaneo lo marca la "pista"** del producto actual (nivel de dificultad). El orden es **distinto por jugador y por partida**.
-- **El contador** arranca al empezar la partida y se detiene al escanear el último producto; ese tiempo va a la tabla. **Gana el menor tiempo.** No hay corte a 60 s ni penalizaciones (pendiente confirmar qué pasa ante un código equivocado).
+- **El contador** arranca al empezar la partida y se detiene al escanear el último producto; ese tiempo va a la tabla. **Gana el menor tiempo.** **Tiempo máximo por partida: 1:30.**
+- **Penalización:** escanear un código que no corresponde a la pista suma **+5 s** al tiempo del equipo.
+- **Equipos:** cada caja = 1 equipo de **2 participantes**; 3 cajas = 3 equipos. Juegan **uno a la vez**. Al registrar se escribe el nombre del equipo y los nombres de ambos integrantes (se guardan). Gana el **equipo** con menor tiempo.
 - **Empate:** partida extra con un orden completamente distinto al anterior.
 - **Una caja a la vez**, no simultáneas. No hace falta sincronizar entre cajas.
 - **Sin internet:** se distribuye como app de escritorio con **Electron**, compilada. Datos guardados localmente en el equipo.
 - La carpeta de la app anterior se deja por ahora; se borra más adelante.
 
 ## Stack propuesto (actualizado)
-Electron + Vite + React + TypeScript + Tailwind. Sin CDN: fuentes Inter y Plus Jakarta Sans empaquetadas. Pensado para TV 50-55" en pantalla completa.
+Electron + Vite + React + TypeScript + Tailwind. Destino: **Windows**; el instalador se hace en la **última fase**. Sin CDN: fuentes Inter y Plus Jakarta Sans empaquetadas. Pensado para TV 50-55" en pantalla completa.
 Se cambia Next.js por Vite porque con Electron no aporta (no hay servidor) y complica el empaquetado.
 Persistencia: archivo JSON local gestionado por el proceso principal de Electron.
 Proyecto nuevo en `gs1-market/`.
@@ -58,15 +60,12 @@ Cronómetro, progreso, producto en curso, mira láser, tique en vivo, panel de j
 Podio Top 3, tabla de equipos, filtros, récords. Se alimenta de las partidas finalizadas.
 
 ## Fase 2: Cierre
-- [ ] Empaquetar la app Electron (instalador) y probar sin internet.
+- [ ] (ÚLTIMA FASE) Empaquetar la app Electron en instalador de Windows y probar sin internet.
 - [ ] Pruebas con pistola real.
 - [ ] Pruebas de TV (1920x1080 y 4K) y revisión final.
 
 ## Preguntas abiertas
 1. GTIN reales (hoy de prueba).
-2. ¿Qué pasa si escanean un código que no es el de la pista? (propuesta: se ignora con aviso, sin penalización).
-3. ¿Hay un tiempo máximo por partida?
-4. ¿Los equipos de la maqueta siguen (1 a 5 integrantes) o juega una persona a la vez? Se dijo "primero juega Pedro, luego Andrés": se asume un **jugador por partida**.
-5. ¿Qué sistema operativo tendrá el equipo del evento (Windows/Mac)? Define el instalador.
-6. ¿Se mantienen las cajas 1/2/3 del Registro, ahora que solo juega una a la vez?
-7. Marca: unificar logo y colores de "GS1 Market".
+2. Si se llega al 1:30 sin terminar los 10 productos: ¿la partida se corta y queda "no terminó" (con cuántos productos llevaba), o se registra 1:30 más penalizaciones? (propuesta: se corta; se clasifica primero por productos escaneados y luego por tiempo).
+3. Las 3 cajas/equipos se registran de antemano o se crean al jugar? (propuesta: Registro crea el equipo y lo asigna a Caja 1, 2 o 3).
+4. Marca: unificar logo y colores de "GS1 Market".
