@@ -32,3 +32,15 @@ Referencia: `gs1_market_desaf_o_en_vivo_tv_interactiva` (adaptada a las reglas a
 - El desempate solo se aplica al **primer puesto** (como pediste). Si lo quieres para otros puestos, se amplía.
 - Textos de la pista y colores del cronómetro.
 - La Tabla de posiciones (pantalla 4) mostrará los desempates.
+
+## Cambio 2 (pedido del usuario): flujo en cola y fotos
+- **Sin "Jugar con este equipo" por tarjeta.** Con los equipos creados hay un único botón **INICIAR JUEGO** en el Registro. Los equipos juegan **uno tras otro en orden de caja** (si faltan cajas, solo las existentes: p. ej. Caja 1 → Caja 3). El Registro muestra "Orden de juego: Caja 1 (…) → Caja 3 (…)".
+- Al terminar cada equipo, la ventana de resultado ofrece **"Siguiente: <equipo> (Caja n)"**; el siguiente equipo ve su propio "¿Listos? ¡INICIAR!". Sin volver al Registro. La cabecera indica "PARTIDA n DE N".
+- Tras el **último equipo**: botón **"Ver tabla de posiciones"** (pantalla 4). Si hay **empate en el 1er puesto**: botón **"Jugar desempate"** con solo los empatados (también aparece "INICIAR DESEMPATE" en el Registro).
+- **Fotos en lugar de nombre**: la pista muestra solo la **foto** del producto (grande). El mensaje tras escanear dice "¡Correcto!" sin nombre. El tique muestra miniatura + nombre de lo ya escaneado. **Provisional**: mientras no existan las fotos, se muestra icono + nombre.
+- Las fotos se añaden en `gs1-market/src/assets/products/` como `1.png` … `10.png` (ver `LEEME.md` allí). También se usan en la franja de canasta del Registro.
+
+### Verificación
+- Prueba en navegador: crear 3 equipos, eliminar el 2º, el orden es Caja 1 → Caja 3, no hay botón por tarjeta, INICIAR JUEGO, equipo 1 completa, "Siguiente: Tres (Caja 3)", cabecera "PARTIDA 2 DE 2", al final "Ver tabla de posiciones", ambos resultados guardados; con imágenes de prueba (ya retiradas) la pista no muestra nombre. Sin errores de consola.
+- **Pendiente**: las fotos reales (el usuario las enviará). Con la pista solo en foto, conviene probar que las fotos se distingan bien a distancia en la TV.
+- **Atención**: los resultados se acumulan entre juegos (mejor partida de cada equipo). Un botón para reiniciar resultados irá en la Tabla de posiciones.

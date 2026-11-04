@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowLeft, CircleCheck, Flag, Play, ScanLine, TriangleAlert, X } from 'lucide-react';
+import { ArrowRight, CircleCheck, Flag, Play, ScanLine, TriangleAlert, X } from 'lucide-react';
 import { PRODUCTS, TOTAL_PRODUCTS } from '../data/products';
 import { useAudioSynth } from '../hooks/useAudioSynth';
 import { applyScan, checkTimeUp, currentProduct, initGame, startCountdown, startRunning, toResult, totalMs, type GameState } from '../lib/game';
 import { formatClock } from '../lib/format';
 import { differentOrder, shuffledOrder } from '../lib/order';
 import { PRODUCT_ICONS } from '../lib/productIcons';
+import { productImage } from '../lib/productImages';
 import { ranking, tiebreakPending } from '../lib/ranking';
 import { MAX_TIME_MS, PENALTY_MS } from '../lib/rules';
 import type { AppData, GameResult, Team } from '../lib/types';
@@ -15,14 +16,20 @@ interface Props {
   data: AppData;
   /** ronda de desempate (1, 2...). Sin valor = partida normal */
   tiebreak?: number;
+  /** posición en la cola de juego: "Partida 2 de 3" */
+  turn: { current: number; total: number };
+  /** siguiente equipo de la cola (si queda alguno) */
+  nextTeam?: Team;
   onFinish: (result: GameResult) => void;
   onBack: () => void;
+  onNext: () => void;
+  onTiebreakQueue: () => void;
   onLeaderboard: () => void;
 }
 
 type Flash = { kind: 'ok' | 'bad'; text: string; key: number } | null;
 
-export function ChallengeScreen({ team, data, tiebreak, onFinish, onBack, onLeaderboard }: Props) {
+export function ChallengeScreen({ team, data, tiebreak, turn, nextTeam, onFinish, onBack, onNext, onTiebreakQueue, onLeaderboard }: Props) {
   const play = useAudioSynth();
   // En el desempate el orden es totalmente distinto al de la última partida del equipo
   const [game, setGame] = useState<GameState>(() => {
@@ -113,7 +120,7 @@ export function ChallengeScreen({ team, data, tiebreak, onFinish, onBack, onLead
       setFlash({ kind: 'bad', text: `Código incorrecto  +${PENALTY_MS / 1000} s`, key: Date.now() });
     } else {
       if (outcome === 'correct') play('success');
-      setFlash({ kind: 'ok', text: `✓ ${PRODUCTS[before.order[before.index]].name}`, key: Date.now() });
+      setFlash({ kind: 'ok', text: '✓ ¡Correcto!', key: Date.now() });
     }
   };
 
@@ -129,6 +136,7 @@ export function ChallengeScreen({ team, data, tiebreak, onFinish, onBack, onLead
   const remaining = MAX_TIME_MS - total;
   const product = currentProduct(game);
   const Icon = product ? PRODUCT_ICONS[product.id] : ScanLine;
+  const image = product ? productImage(product.id) : undefined;
   const timeClass = over ? 'text-gs1-blue' : remaining < 5000 && running ? 'alarm' : remaining < 10000 && running ? 'text-gs1-orange' : 'text-on-surface';
 
   return (
@@ -137,7 +145,7 @@ export function ChallengeScreen({ team, data, tiebreak, onFinish, onBack, onLead
       <section className="card-glow grid grid-cols-[1fr_auto_1fr] items-center rounded-3xl bg-white px-10 py-5">
         <div>
           <div className="text-sm font-extrabold tracking-widest text-on-surface-variant">
-            CAJA {team.box}{tiebreak ? ` • DESEMPATE ${tiebreak}` : ''}
+            CAJA {team.box} • PARTIDA {turn.current} DE {turn.total}{tiebreak ? ` • DESEMPATE ${tiebreak}` : ''}
           </div>
           <div className="font-display text-4xl font-extrabold leading-tight text-gs1-blue">{team.name}</div>
           {!(team.players.length === 1 && team.players[0] === team.name) && <div className="text-xl text-on-surface-variant">{team.players.join(' y ')}</div>}
@@ -177,11 +185,18 @@ export function ChallengeScreen({ team, data, tiebreak, onFinish, onBack, onLead
                 <span className="text-lg font-semibold text-on-surface-variant">de {TOTAL_PRODUCTS}</span>
               </div>
               <div key={game.index} className="pop flex flex-1 items-center justify-center gap-8">
-                {product && running || game.phase === 'countdown' ? (
-                  <>
-                    <span className="flex h-40 w-40 items-center justify-center rounded-3xl bg-slate-50 text-gs1-blue ring-1 ring-slate-200"><Icon size={90} /></span>
-                    <span className="font-display text-7xl font-extrabold leading-tight text-on-surface">{game.phase === 'countdown' ? '¡Prepárate!' : product?.name}</span>
-                  </>
+                {product && running ? (
+                  image ? (
+                    <img src={image} data-product={product.id} alt="Producto a escanear" className="h-[19rem] w-auto max-w-full object-contain drop-shadow-xl" />
+                  ) : (
+                    // Provisional: mientras no haya foto del producto se muestra icono y nombre
+                    <>
+                      <span className="flex h-40 w-40 items-center justify-center rounded-3xl bg-slate-50 text-gs1-blue ring-1 ring-slate-200"><Icon size={90} /></span>
+                      <span className="font-display text-7xl font-extrabold leading-tight text-on-surface">{product.name}</span>
+                    </>
+                  )
+                ) : game.phase === 'countdown' ? (
+                  <span className="font-display text-6xl font-extrabold text-gs1-blue">¡Prepárate!</span>
                 ) : (
                   <span className="font-display text-6xl font-extrabold text-gs1-blue">{game.phase === 'finished' ? '¡Terminaste!' : '¡Tiempo!'}</span>
                 )}
@@ -226,6 +241,7 @@ export function ChallengeScreen({ team, data, tiebreak, onFinish, onBack, onLead
               return (
                 <li key={i} className={`flex flex-1 items-center gap-4 rounded-xl border px-4 text-xl ${done ? 'border-green-200 bg-green-50' : current ? 'border-gs1-blue bg-blue-50' : 'border-dashed border-slate-300 text-slate-400'}`}>
                   {done ? <CircleCheck className="text-gs1-green" size={26} /> : <span className={`flex h-6 w-6 items-center justify-center rounded-full border-2 text-xs font-bold ${current ? 'border-gs1-blue text-gs1-blue' : 'border-slate-300'}`}>{i + 1}</span>}
+                  {done && productImage(p.id) && <img src={productImage(p.id)} alt="" className="h-9 w-9 object-contain" />}
                   <span className={`flex-1 font-semibold ${done ? 'text-on-surface' : ''}`}>{done ? `${i + 1}. ${p.name}` : current ? 'EN CURSO' : 'Pista oculta'}</span>
                   {done && <span className="font-mono text-lg text-green-700">{formatClock(game.splits[i])}</span>}
                 </li>
@@ -257,16 +273,16 @@ export function ChallengeScreen({ team, data, tiebreak, onFinish, onBack, onLead
         </div>
       )}
 
-      {over && <ResultOverlay game={game} team={team} data={data} onBack={onBack} onLeaderboard={onLeaderboard} />}
+      {over && <ResultOverlay game={game} team={team} data={data} nextTeam={nextTeam} onNext={onNext} onTiebreakQueue={onTiebreakQueue} onLeaderboard={onLeaderboard} />}
     </div>
   );
 }
 
-function ResultOverlay({ game, team, data, onBack, onLeaderboard }: { game: GameState; team: Team; data: AppData; onBack: () => void; onLeaderboard: () => void }) {
+function ResultOverlay({ game, team, data, nextTeam, onNext, onTiebreakQueue, onLeaderboard }: { game: GameState; team: Team; data: AppData; nextTeam?: Team; onNext: () => void; onTiebreakQueue: () => void; onLeaderboard: () => void }) {
   const finished = game.phase === 'finished';
   const ranked = ranking(data.results);
   const position = ranked.findIndex((r) => r.teamId === team.id) + 1;
-  const pending = tiebreakPending(data.results);
+  const pending = nextTeam ? null : tiebreakPending(data.results);
   const pendingNames = pending ? pending.teamIds.map((id) => data.teams.find((t) => t.id === id)?.name ?? '').filter(Boolean) : [];
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gs1-blue/85 p-10">
@@ -278,16 +294,27 @@ function ResultOverlay({ game, team, data, onBack, onLeaderboard }: { game: Game
         <div className="mt-6 flex justify-center gap-4 text-xl">
           <Pill label="PRODUCTOS" value={`${game.index} / ${TOTAL_PRODUCTS}`} />
           <Pill label="FALTAS" value={`${game.errors}${game.errors ? ` (+${game.penaltyMs / 1000} s)` : ''}`} />
-          {position > 0 && <Pill label="PUESTO" value={`${position}º de ${ranked.length}`} />}
+          {position > 0 && <Pill label={nextTeam ? 'PUESTO ACTUAL' : 'PUESTO'} value={`${position}º de ${ranked.length}`} />}
         </div>
         {pending && (
           <div className="mt-6 rounded-2xl border-2 border-gs1-orange bg-orange-50 p-4 text-xl font-semibold text-gs1-orange">
-            ¡Empate en el primer puesto! Desempate pendiente: {pendingNames.join(' y ')}. Se juega con un orden totalmente distinto.
+            ¡Empate en el primer puesto! Desempate: {pendingNames.join(' y ')}. Se juega con un orden totalmente distinto.
           </div>
         )}
-        <div className="mt-8 grid grid-cols-2 gap-4">
-          <button onClick={onBack} className="flex items-center justify-center gap-2 rounded-2xl border-2 border-slate-300 py-4 text-xl font-bold text-on-surface-variant hover:bg-slate-50"><ArrowLeft size={22} /> Registro</button>
-          <button onClick={onLeaderboard} className="rounded-2xl bg-gs1-blue py-4 text-xl font-bold text-white">Ver posiciones</button>
+        <div className="mt-8">
+          {nextTeam ? (
+            <button onClick={onNext} className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-gs1-orange to-gs1-fuchsia py-5 font-display text-3xl font-extrabold text-white shadow-md shadow-gs1-orange/30 transition active:translate-y-0.5">
+              Siguiente: {nextTeam.name} (Caja {nextTeam.box}) <ArrowRight size={32} />
+            </button>
+          ) : pending ? (
+            <button onClick={onTiebreakQueue} className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-gs1-orange to-gs1-fuchsia py-5 font-display text-3xl font-extrabold text-white shadow-md shadow-gs1-orange/30 transition active:translate-y-0.5">
+              Jugar desempate <ArrowRight size={32} />
+            </button>
+          ) : (
+            <button onClick={onLeaderboard} className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gs1-blue py-5 font-display text-3xl font-extrabold text-white transition active:translate-y-0.5">
+              Ver tabla de posiciones <ArrowRight size={32} />
+            </button>
+          )}
         </div>
       </div>
     </div>

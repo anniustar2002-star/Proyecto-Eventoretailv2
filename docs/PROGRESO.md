@@ -18,3 +18,4 @@ Comandos: `cd gs1-market && npm install && npm run dev` (navegador), `npm test`,
 - Decisión: eliminar la fecha del evento del diseño. App anterior descartada.
 - Respuestas del usuario: 10 productos, orden por jugador, gana el menor tiempo, empate con orden distinto, una caja a la vez, Electron sin internet. GTIN de prueba en `datos-productos.md`.
 - Respuestas 2: error de escaneo = +5 s, máximo 1:30, cada caja = equipo de 2 participantes, Windows con instalador al final.
+- Cambio de flujo: botón único INICIAR JUEGO, cola de equipos por orden de caja, "Siguiente" sin volver al Registro, Tabla al final. Pista con foto (pendientes las fotos del usuario, carpeta `gs1-market/src/assets/products/`).

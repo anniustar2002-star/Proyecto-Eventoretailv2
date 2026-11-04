@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowLeft, Pencil, Play, Plus, Trash2, User, Users, X } from 'lucide-react';
 import { PRODUCT_ICONS } from '../lib/productIcons';
+import { productImage } from '../lib/productImages';
 import { PRODUCTS } from '../data/products';
 import { BOXES, MAX_TIME_MS, PENALTY_MS, type BoxId } from '../lib/rules';
 import { formatClock } from '../lib/format';
@@ -16,13 +17,14 @@ interface Props {
   data: AppData;
   tiebreakTeamIds: string[];
   onSaveTeams: (teams: Team[]) => void;
-  onPlay: (teamId: string) => void;
+  /** inicia el juego con los equipos en orden de caja (o el desempate pendiente) */
+  onStartGame: () => void;
   onBack: () => void;
 }
 
 type ModalState = { mode: 'create' } | { mode: 'edit'; team: Team } | null;
 
-export function RegisterScreen({ data, tiebreakTeamIds, onSaveTeams, onPlay, onBack }: Props) {
+export function RegisterScreen({ data, tiebreakTeamIds, onSaveTeams, onStartGame, onBack }: Props) {
   const teams = [...data.teams].sort((a, b) => a.box - b.box);
   // Si no hay equipos, se pide crear el primero nada más entrar
   const [modal, setModal] = useState<ModalState>(teams.length === 0 ? { mode: 'create' } : null);
@@ -48,7 +50,7 @@ export function RegisterScreen({ data, tiebreakTeamIds, onSaveTeams, onPlay, onB
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-5xl font-extrabold tracking-tight text-on-surface">Registro de Equipos</h1>
-          <p className="mt-1 text-xl text-on-surface-variant">Cada equipo o participante ocupa una caja. Se pueden registrar hasta {BOXES.length}.</p>
+          <p className="mt-1 text-xl text-on-surface-variant">Cada equipo o participante ocupa una caja (hasta {BOXES.length}). Cuando estén todos, pulsa Iniciar juego.</p>
         </div>
         <div className="flex items-center gap-4">
           {freeBox ? (
@@ -72,7 +74,6 @@ export function RegisterScreen({ data, tiebreakTeamIds, onSaveTeams, onPlay, onB
             key={t.id}
             team={t}
             tiebreak={tiebreakTeamIds.includes(t.id)}
-            onPlay={() => onPlay(t.id)}
             onEdit={() => setModal({ mode: 'edit', team: t })}
             onDelete={() => onSaveTeams(data.teams.filter((x) => x.id !== t.id))}
           />
@@ -80,7 +81,22 @@ export function RegisterScreen({ data, tiebreakTeamIds, onSaveTeams, onPlay, onB
        </div>
       </div>
 
-      <section className="card-glow rounded-3xl bg-white px-8 py-5">
+      <div className="flex flex-col items-center gap-2">
+        <button
+          onClick={onStartGame}
+          disabled={teams.length === 0}
+          className="flex items-center justify-center gap-4 rounded-3xl bg-gradient-to-r from-gs1-orange to-gs1-fuchsia px-16 py-5 font-display text-4xl font-extrabold text-white shadow-lg shadow-gs1-orange/30 transition enabled:active:translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+        >
+          <Play size={36} /> {tiebreakTeamIds.length > 0 ? 'INICIAR DESEMPATE' : 'INICIAR JUEGO'}
+        </button>
+        {teams.length > 0 && (
+          <p className="text-lg text-on-surface-variant">
+            Orden de juego: {(tiebreakTeamIds.length > 0 ? teams.filter((t) => tiebreakTeamIds.includes(t.id)) : teams).map((t) => `Caja ${t.box} (${t.name})`).join('  →  ')}
+          </p>
+        )}
+      </div>
+
+      <section className="card-glow rounded-3xl bg-white px-8 py-4">
         <div className="flex items-center justify-between">
           <h2 className="font-display text-2xl font-bold text-gs1-blue">Canasta de la partida: {PRODUCTS.length} productos</h2>
           <p className="text-lg text-on-surface-variant">
@@ -90,9 +106,14 @@ export function RegisterScreen({ data, tiebreakTeamIds, onSaveTeams, onPlay, onB
         <div className="mt-4 grid grid-cols-10 gap-3">
           {PRODUCTS.map((p) => {
             const Icon = PRODUCT_ICONS[p.id];
+            const image = productImage(p.id);
             return (
-              <div key={p.id} className="flex flex-col items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-2 py-3 text-center">
-                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-gs1-blue shadow-sm"><Icon size={26} /></span>
+              <div key={p.id} className="flex flex-col items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-2 py-2 text-center">
+                {image ? (
+                  <img src={image} alt="" className="h-14 w-14 object-contain" />
+                ) : (
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-gs1-blue shadow-sm"><Icon size={26} /></span>
+                )}
                 <span className="text-base font-semibold leading-tight">{p.name}</span>
               </div>
             );
@@ -114,7 +135,7 @@ export function RegisterScreen({ data, tiebreakTeamIds, onSaveTeams, onPlay, onB
   );
 }
 
-function TeamCard({ team, tiebreak, onPlay, onEdit, onDelete }: { team: Team; tiebreak: boolean; onPlay: () => void; onEdit: () => void; onDelete: () => void }) {
+function TeamCard({ team, tiebreak, onEdit, onDelete }: { team: Team; tiebreak: boolean; onEdit: () => void; onDelete: () => void }) {
   const s = BOX_STYLE[team.box];
   const solo = team.players.length === 1 && team.players[0] === team.name;
   const [confirming, setConfirming] = useState(false);
@@ -132,7 +153,7 @@ function TeamCard({ team, tiebreak, onPlay, onEdit, onDelete }: { team: Team; ti
         </div>
       </div>
 
-      <div className="my-6 rounded-2xl bg-slate-50 p-5">
+      <div className="mt-6 rounded-2xl bg-slate-50 p-5">
         <div className="flex items-center gap-2 text-sm font-extrabold tracking-widest text-on-surface-variant">
           {solo ? <User size={18} /> : <Users size={18} />} {solo ? 'PARTICIPANTE INDIVIDUAL' : 'EQUIPO'}
         </div>
@@ -146,16 +167,12 @@ function TeamCard({ team, tiebreak, onPlay, onEdit, onDelete }: { team: Team; ti
         )}
       </div>
 
-      {confirming ? (
+      {confirming && (
         <div className="mt-auto flex items-center gap-3 rounded-2xl border border-red-200 bg-red-50 p-4">
           <span className="flex-1 text-lg font-semibold text-red-700">¿Eliminar este equipo?</span>
           <button onClick={() => setConfirming(false)} className="rounded-xl border border-slate-300 bg-white px-5 py-3 text-lg font-semibold">No</button>
           <button onClick={onDelete} className="rounded-xl bg-red-600 px-5 py-3 text-lg font-bold text-white">Sí, eliminar</button>
         </div>
-      ) : (
-        <button onClick={onPlay} className="mt-auto flex items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-gs1-orange to-gs1-fuchsia py-4 font-display text-2xl font-extrabold text-white shadow-md shadow-gs1-orange/30 transition active:translate-y-0.5">
-          <Play size={24} /> {tiebreak ? 'Jugar DESEMPATE' : 'Jugar con este equipo'}
-        </button>
       )}
     </section>
   );
