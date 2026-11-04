@@ -27,3 +27,8 @@ Estado: **lista para revisión del usuario**. Captura: `01-inicio.png` (compara 
 ## Para revisar
 - ¿Coincide con lo que querías? ¿Se queda "Ver Tabla de Posiciones" o prefieres otro texto?
 - La barra de navegación inferior de la maqueta no se incluyó (tapaba contenido); la navegación será con los botones de cada pantalla.
+
+## Ajuste posterior (revisión del usuario)
+- Se **quitó el simulador/prueba de pistola** del Inicio.
+- Para llenar el espacio, tomando ideas de la versión vertical que mostró el usuario: tarjeta azul de **Récord actual** (tiempo y equipo), Top 3, y contadores de **equipos que han competido** y **partidas jugadas**. Datos reales desde los resultados guardados.
+- La captura `01-inicio.png` es de la primera versión (con simulador); ver cambios arriba.

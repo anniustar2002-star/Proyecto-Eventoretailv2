@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
-import { BookOpen, ChartColumn, Play, Radio, ShoppingBasket, Timer, Trophy, UsersRound, Zap, X } from 'lucide-react';
-import { PRODUCTS, TOTAL_PRODUCTS } from '../data/products';
-import { useBarcodeScanner } from '../hooks/useBarcodeScanner';
+import { BookOpen, ChartColumn, Medal, Play, ShoppingBasket, Timer, Trophy, UsersRound, Zap, X } from 'lucide-react';
+import { TOTAL_PRODUCTS } from '../data/products';
 import { formatClock, formatShort } from '../lib/format';
 import { ranking } from '../lib/ranking';
 import { MAX_PLAYERS_PER_BOX, MAX_TIME_MS, PENALTY_MS } from '../lib/rules';
@@ -15,26 +14,10 @@ interface Props {
 
 export function HomeScreen({ data, onStart, onRecords }: Props) {
   const [rulesOpen, setRulesOpen] = useState(false);
-  const [lastCode, setLastCode] = useState<string | null>(null);
-  const [read, setRead] = useState<Set<number>>(new Set());
-  const [simIndex, setSimIndex] = useState(0);
-
-  const registerScan = (code: string) => {
-    setLastCode(code);
-    const product = PRODUCTS.find((p) => p.gtin === code);
-    if (product) setRead((prev) => new Set(prev).add(product.id));
-  };
-  // Prueba de la pistola real desde el Inicio
-  useBarcodeScanner(registerScan);
-
-  const simulate = () => {
-    registerScan(PRODUCTS[simIndex % TOTAL_PRODUCTS].gtin);
-    setSimIndex((i) => i + 1);
-  };
-
-  const matched = lastCode ? PRODUCTS.find((p) => p.gtin === lastCode) : undefined;
   const top3 = useMemo(() => ranking(data.results).slice(0, 3), [data.results]);
-  const record = top3[0]?.timeMs;
+  const best = top3[0];
+  const record = best?.timeMs;
+  const teamsPlayed = new Set(data.results.map((r) => r.teamId)).size;
 
   return (
     <div className="relative z-10 mx-auto grid w-full max-w-[1800px] flex-1 grid-cols-[1.55fr_1fr] gap-8 px-10 py-8">
@@ -76,45 +59,28 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
 
       {/* Columna derecha */}
       <div className="flex flex-col gap-6">
-        <section className="card-glow rounded-3xl bg-white p-7">
-          <div className="flex items-start justify-between">
+        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gs1-blue to-[#0a3f8f] p-8 text-white shadow-lg shadow-gs1-blue/20">
+          <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-gs1-orange/30 blur-3xl" />
+          <div className="relative flex items-center justify-between">
             <div>
-              <h2 className="font-display text-2xl font-bold">Prueba de la Pistola Lectora</h2>
-              <p className="text-base text-on-surface-variant">Escanea un producto o usa el botón de prueba</p>
+              <div className="flex items-center gap-2 text-sm font-extrabold tracking-widest text-white/70"><Medal size={18} /> RÉCORD ACTUAL</div>
+              <div className="mt-2 font-display text-6xl font-extrabold tracking-tight">{best ? formatShort(best.timeMs) : '--'}</div>
+              <div className="mt-1 text-xl text-white/80">{best ? best.teamName : 'Aún sin récord'}</div>
             </div>
-            <span className="rounded-md bg-green-50 px-3 py-1 text-sm font-extrabold text-green-700 ring-1 ring-green-200">LISTO</span>
-          </div>
-          <div className="relative mt-5 h-60 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
-            <div className="barcode-pattern absolute inset-x-6 inset-y-12 opacity-80" />
-            <div className="laser-line absolute inset-x-0 h-[3px] animate-laser bg-gs1-orange/80" />
-            <div className="absolute left-1/2 top-1/2 w-[19rem] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-white/95 px-5 py-4 text-center shadow-md">
-              <div className="font-mono text-2xl font-bold tracking-widest text-gs1-blue">{lastCode ?? 'GS1 · · · · · · · ·'}</div>
-              <div className={`mt-1 text-base ${lastCode ? (matched ? 'font-bold text-green-700' : 'font-bold text-red-600') : 'text-on-surface-variant'}`}>
-                {lastCode ? (matched ? `✓ ${matched.name}` : 'Código no pertenece a la canasta') : 'Esperando paso por escáner...'}
-              </div>
-            </div>
-          </div>
-          <div className="mt-5 grid grid-cols-[1fr_auto] gap-4">
-            <button onClick={simulate} className="flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 py-4 text-xl font-semibold text-on-surface transition hover:bg-slate-100 active:translate-y-0.5">
-              <Radio size={22} className="text-gs1-orange" /> Simular Escaneo (Test)
-            </button>
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-6 py-2 text-center">
-              <div className="text-xs font-bold tracking-widest text-on-surface-variant">LEÍDOS</div>
-              <div className="font-display text-3xl font-extrabold text-gs1-blue">{read.size} / {TOTAL_PRODUCTS}</div>
-            </div>
+            <Trophy size={84} className="text-gs1-orange/90" />
           </div>
         </section>
 
-        <section className="card-glow flex-1 rounded-3xl bg-white p-7">
+        <section className="card-glow flex flex-1 flex-col rounded-3xl bg-white p-7">
           <div className="flex items-center justify-between">
             <h2 className="flex items-center gap-3 font-display text-2xl font-bold">
               <Trophy size={26} className="text-gs1-blue" /> Tabla de Posiciones Rápida
             </h2>
             <span className="rounded-full bg-orange-50 px-3 py-1 text-sm font-bold text-gs1-orange ring-1 ring-orange-200">Top 3</span>
           </div>
-          <div className="mt-5 flex flex-col gap-3">
+          <div className="mt-5 flex flex-1 flex-col gap-3">
             {top3.length === 0 && (
-              <p className="rounded-2xl border border-dashed border-slate-300 py-10 text-center text-lg text-on-surface-variant">
+              <p className="flex flex-1 items-center justify-center rounded-2xl border border-dashed border-slate-300 py-10 text-center text-lg text-on-surface-variant">
                 Aún no hay resultados. ¡Sé el primer equipo!
               </p>
             )}
@@ -132,13 +98,23 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
               </div>
             ))}
           </div>
-          <div className="mt-5 rounded-2xl border border-blue-100 bg-blue-50/60 px-5 py-3 text-base">
-            <b>{data.teams.length}</b> {data.teams.length === 1 ? 'equipo registrado' : 'equipos registrados'}
+          <div className="mt-5 grid grid-cols-2 gap-4">
+            <MiniStat value={teamsPlayed} label={teamsPlayed === 1 ? 'Equipo ha competido' : 'Equipos han competido'} />
+            <MiniStat value={data.results.length} label={data.results.length === 1 ? 'Partida jugada' : 'Partidas jugadas'} />
           </div>
         </section>
       </div>
 
       {rulesOpen && <RulesModal onClose={() => setRulesOpen(false)} />}
+    </div>
+  );
+}
+
+function MiniStat({ value, label }: { value: number; label: string }) {
+  return (
+    <div className="rounded-2xl border border-blue-100 bg-blue-50/60 px-5 py-4 text-center">
+      <div className="font-display text-4xl font-extrabold text-gs1-blue">{value}</div>
+      <div className="text-sm font-bold text-on-surface-variant">{label}</div>
     </div>
   );
 }
