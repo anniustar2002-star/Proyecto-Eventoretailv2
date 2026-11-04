@@ -34,7 +34,7 @@ export function App() {
           onBack={home}
         />
         ) : screen === 'challenge' ? (
-          <Placeholder title="Desafío en Vivo" subtitle={currentTeam ? `Equipo: ${currentTeam.name} (${currentTeam.players.join(' y ')})` : undefined} onBack={home} />
+          <Placeholder title="Desafío en Vivo" subtitle={currentTeam ? currentTeam.players.length === 1 && currentTeam.players[0] === currentTeam.name ? `Participante: ${currentTeam.name}` : `Equipo: ${currentTeam.name} (${currentTeam.players.join(' y ')})` : undefined} onBack={home} />
         ) : (
           <Placeholder title="Tabla de Posiciones" onBack={home} />
         )}
