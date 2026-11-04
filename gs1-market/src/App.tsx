@@ -4,6 +4,7 @@ import { Header } from './components/Header';
 import { Stage } from './components/Stage';
 import { useAppData } from './hooks/useAppData';
 import { HomeScreen } from './screens/HomeScreen';
+import { LeaderboardScreen } from './screens/LeaderboardScreen';
 import { ChallengeScreen } from './screens/ChallengeScreen';
 import { Placeholder } from './screens/Placeholder';
 import { RegisterScreen } from './screens/RegisterScreen';
@@ -86,7 +87,13 @@ export function App() {
           <Placeholder title="Desafío en Vivo" onBack={() => setScreen('register')} />
         )
 ) : (
-          <Placeholder title="Tabla de Posiciones" onBack={home} />
+          <LeaderboardScreen
+            data={data}
+            onHome={home}
+            onRegister={() => setScreen('register')}
+            onTiebreak={startGame}
+            onResetResults={() => update((d) => ({ ...d, results: [] }))}
+          />
         )}
       </Stage>
     </>

@@ -46,8 +46,8 @@ Cada pantalla pasa por: **construir → verificar (typecheck, lint, build, captu
 |---|---|---|---|
 | 1 | Inicio / Hub | `gs1_market_pantalla_tv_interactiva` | **Cerrada** |
 | 2 | Registro de escuadrón | `gs1_market_registro_de_equipo_tv_interactiva` | **Cerrada** |
-| 3 | Desafío en vivo | `gs1_market_desaf_o_en_vivo_tv_interactiva` | En revisión |
-| 4 | Tabla de posiciones | `gs1_market_tabla_de_posiciones_tv_interactiva` | Pendiente |
+| 3 | Desafío en vivo | `gs1_market_desaf_o_en_vivo_tv_interactiva` | **Cerrada** |
+| 4 | Tabla de posiciones | `gs1_market_tabla_de_posiciones_tv_interactiva` | En revisión |
 
 ### Pantalla 1: Inicio / Hub
 Título, tres tarjetas (8 SKU, máx. 5 por equipo, 60 s), botón "¡Comenzar partida!", simulador de haz óptico, tabla rápida Top 3, enlaces a récords y reglas. **Sin fecha del evento.**
