@@ -22,6 +22,8 @@
 - **Sin internet:** se distribuye como app de escritorio con **Electron**, compilada. Datos guardados localmente en el equipo.
 - La carpeta de la app anterior se deja por ahora; se borra más adelante.
 
+- **Pantalla pública, sin scroll:** cada pantalla se diseña dentro de un lienzo de 1920x1080 que se escala a la ventana (`Stage`).
+
 ## Stack propuesto (actualizado)
 Electron + Vite + React + TypeScript + Tailwind. Destino: **Windows**; el instalador se hace en la **última fase**. Sin CDN: fuentes Inter y Plus Jakarta Sans empaquetadas. Pensado para TV 50-55" en pantalla completa.
 Se cambia Next.js por Vite porque con Electron no aporta (no hay servidor) y complica el empaquetado.

@@ -17,30 +17,30 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
   const [rulesOpen, setRulesOpen] = useState(false);
   // Mientras no haya resultados reales se muestran datos de ejemplo
   const results = data.results.length === 0 && SHOW_DEMO_WHEN_EMPTY ? DEMO_RESULTS : data.results;
-  const top3 = useMemo(() => ranking(results).slice(0, 3), [results]);
+  const top3 = useMemo(() => ranking(results).slice(0, 5), [results]);
   const best = top3[0];
   const record = best?.timeMs;
   const teamsPlayed = new Set(results.map((r) => r.teamId)).size;
 
   return (
-    <div className="relative z-10 mx-auto grid w-full max-w-[1800px] flex-1 grid-cols-[1.55fr_1fr] gap-8 px-10 py-8">
+    <div className="relative z-10 grid min-h-0 w-full flex-1 grid-cols-[1.55fr_1fr] gap-8 px-10 py-6">
       {/* Columna izquierda */}
-      <div className="flex flex-col gap-5">
-        <section className="card-glow relative overflow-hidden rounded-3xl bg-white p-10">
-          <span className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-extrabold tracking-widest text-gs1-blue">
+      <div className="flex min-h-0 flex-col gap-4">
+        <section className="card-glow relative flex min-h-0 flex-1 flex-col justify-between overflow-hidden rounded-3xl bg-white p-9">
+          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-extrabold tracking-widest text-gs1-blue">
             <span className="h-2 w-2 rounded-full bg-gs1-orange" /> COMPETICIÓN OFICIAL • GS1 VENEZUELA
           </span>
-          <h1 className="mt-8 max-w-[34rem] font-display text-7xl font-extrabold leading-[1.02] tracking-tight text-on-surface">
+          <h1 className="mt-5 max-w-[34rem] font-display text-6xl font-extrabold leading-[1.02] tracking-tight text-on-surface">
             La Carrera de Escaneo de <span className="text-gs1-blue">GS1</span>{' '}
             <span className="bg-gradient-to-r from-gs1-fuchsia to-gs1-purple bg-clip-text text-transparent">Market</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-2xl leading-snug text-on-surface-variant">
+          <p className="mt-4 max-w-2xl text-2xl leading-snug text-on-surface-variant">
             Demuestra la velocidad, precisión y sincronía de tu equipo en la caja registradora de alta tecnología.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-5 flex flex-wrap gap-3">
             <Chip>#GS1MARKET</Chip>
           </div>
-          <div className="mt-8 grid grid-cols-3 gap-5 border-t border-slate-200 pt-8">
+          <div className="mt-5 grid grid-cols-3 gap-5 border-t border-slate-200 pt-5">
             <Stat icon={<ShoppingBasket size={30} />} tone="text-gs1-blue bg-blue-50" value={String(TOTAL_PRODUCTS)} label="Productos" />
             <Stat icon={<UsersRound size={30} />} tone="text-gs1-purple bg-purple-50" value={`${MAX_PLAYERS_PER_BOX}`} label="Por equipo" />
             <Stat icon={<Timer size={30} />} tone="text-gs1-orange bg-orange-50" value="1:30" label="Contra reloj" />
@@ -49,7 +49,7 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
 
         <button
           onClick={onStart}
-          className="flex items-center justify-center gap-5 rounded-3xl bg-gradient-to-r from-gs1-orange to-gs1-fuchsia py-7 font-display text-4xl font-extrabold tracking-wide text-white shadow-lg shadow-gs1-orange/30 transition active:translate-y-0.5"
+          className="flex items-center justify-center gap-5 rounded-3xl bg-gradient-to-r from-gs1-orange to-gs1-fuchsia py-5 font-display text-4xl font-extrabold tracking-wide text-white shadow-lg shadow-gs1-orange/30 transition active:translate-y-0.5"
         >
           <Zap size={36} /> ¡COMENZAR PARTIDA! <Play size={28} />
         </button>
@@ -61,7 +61,7 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
       </div>
 
       {/* Columna derecha */}
-      <div className="flex flex-col gap-6">
+      <div className="flex min-h-0 flex-col gap-5">
         <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gs1-blue to-[#0a3f8f] p-8 text-white shadow-lg shadow-gs1-blue/20">
           <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-gs1-orange/30 blur-3xl" />
           <div className="relative flex items-center justify-between">
@@ -74,12 +74,12 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
           </div>
         </section>
 
-        <section className="card-glow flex flex-1 flex-col rounded-3xl bg-white p-7">
+        <section className="card-glow flex min-h-0 flex-1 flex-col rounded-3xl bg-white p-7">
           <div className="flex items-center justify-between">
             <h2 className="flex items-center gap-3 font-display text-2xl font-bold">
               <Trophy size={26} className="text-gs1-blue" /> Tabla de Posiciones Rápida
             </h2>
-            <span className="rounded-full bg-orange-50 px-3 py-1 text-sm font-bold text-gs1-orange ring-1 ring-orange-200">Top 3</span>
+            <span className="rounded-full bg-orange-50 px-3 py-1 text-sm font-bold text-gs1-orange ring-1 ring-orange-200">Top 5</span>
           </div>
           <div className="mt-5 flex flex-1 flex-col gap-3">
             {top3.length === 0 && (
@@ -89,7 +89,7 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
             )}
             {top3.map((r, i) => (
               <div key={r.id} className={`flex items-center gap-4 rounded-2xl border p-4 ${i === 0 ? 'border-yellow-200 bg-yellow-50/60' : 'border-slate-200'}`}>
-                <span className={`flex h-9 w-9 items-center justify-center rounded-lg text-lg font-extrabold ${['bg-yellow-400 text-yellow-900', 'bg-slate-200 text-slate-700', 'bg-orange-200 text-orange-800'][i]}`}>{i + 1}</span>
+                <span className={`flex h-9 w-9 items-center justify-center rounded-lg text-lg font-extrabold ${['bg-yellow-400 text-yellow-900', 'bg-slate-200 text-slate-700', 'bg-orange-200 text-orange-800'][i] ?? 'bg-slate-100 text-slate-500'}`}>{i + 1}</span>
                 <div className="flex-1">
                   <div className="text-xl font-bold">{r.teamName}</div>
                   <div className="text-sm text-on-surface-variant">{r.players.join(' y ')}{r.errors === 0 ? ' • Sin fallas' : ` • ${r.errors} ${r.errors === 1 ? 'falla' : 'fallas'}`}</div>
@@ -128,7 +128,7 @@ function Chip({ children }: { children: React.ReactNode }) {
 
 function Stat({ icon, tone, value, label }: { icon: React.ReactNode; tone: string; value: string; label: string }) {
   return (
-    <div className="flex flex-col items-center rounded-2xl border border-slate-200 bg-slate-50 py-6">
+    <div className="flex flex-col items-center rounded-2xl border border-slate-200 bg-slate-50 py-4">
       <span className={`mb-3 flex h-14 w-14 items-center justify-center rounded-xl ${tone}`}>{icon}</span>
       <span className="font-display text-5xl font-extrabold">{value}</span>
       <span className="mt-1 text-sm font-bold tracking-widest text-on-surface-variant">{label.toUpperCase()}</span>
@@ -138,7 +138,7 @@ function Stat({ icon, tone, value, label }: { icon: React.ReactNode; tone: strin
 
 function GhostButton({ icon, children, onClick }: { icon: React.ReactNode; children: React.ReactNode; onClick: () => void }) {
   return (
-    <button onClick={onClick} className="card-glow flex items-center justify-center gap-3 rounded-2xl bg-white py-5 text-2xl font-semibold text-gs1-blue transition hover:bg-slate-50 active:translate-y-0.5">
+    <button onClick={onClick} className="card-glow flex items-center justify-center gap-3 rounded-2xl bg-white py-4 text-2xl font-semibold text-gs1-blue transition hover:bg-slate-50 active:translate-y-0.5">
       {icon} {children}
     </button>
   );
