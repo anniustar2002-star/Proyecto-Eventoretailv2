@@ -5,12 +5,12 @@
 ## Estado actual
 - Fase 0 (cimientos): **hecha** (`gs1-market/`).
 - Pantalla 1 (Inicio): **CERRADA / aprobada** (`informes/01-pantalla-inicio.md`).
-- Pantalla 2 (Registro): pendiente.
+- Pantalla 2 (Registro): **lista, esperando revisión del usuario** (`informes/02-pantalla-registro.md`).
 - Pantalla 3 (Desafío): pendiente.
 - Pantalla 4 (Posiciones): pendiente.
 
 ## Siguiente paso
-Pantalla 2 (Registro). Debe caber en el lienzo 1920x1080 sin scroll.
+Revisión de la pantalla 2. Con su visto bueno: pantalla 3 (Desafío en vivo). Debe caber en el lienzo 1920x1080 sin scroll.
 Comandos: `cd gs1-market && npm install && npm run dev` (navegador), `npm test`, `npm run build`.
 
 ## Bitácora

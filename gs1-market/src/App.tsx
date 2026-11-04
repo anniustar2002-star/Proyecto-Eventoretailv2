@@ -5,13 +5,16 @@ import { Stage } from './components/Stage';
 import { useAppData } from './hooks/useAppData';
 import { HomeScreen } from './screens/HomeScreen';
 import { Placeholder } from './screens/Placeholder';
+import { RegisterScreen } from './screens/RegisterScreen';
 
 type Screen = 'home' | 'register' | 'challenge' | 'leaderboard';
 
 export function App() {
-  const { data, loaded } = useAppData();
+  const { data, loaded, update } = useAppData();
   const [screen, setScreen] = useState<Screen>('home');
+  const [currentTeamId, setCurrentTeamId] = useState<string | null>(null);
   const home = () => setScreen('home');
+  const currentTeam = data.teams.find((t) => t.id === currentTeamId);
 
   return (
     <>
@@ -21,9 +24,17 @@ export function App() {
         {!loaded ? null : screen === 'home' ? (
           <HomeScreen data={data} onStart={() => setScreen('register')} onRecords={() => setScreen('leaderboard')} />
         ) : screen === 'register' ? (
-          <Placeholder title="Registro de Escuadrón" onBack={home} />
+          <RegisterScreen
+          data={data}
+          onSaveTeams={(teams) => update((d) => ({ ...d, teams }))}
+          onPlay={(id) => {
+            setCurrentTeamId(id);
+            setScreen('challenge');
+          }}
+          onBack={home}
+        />
         ) : screen === 'challenge' ? (
-          <Placeholder title="Desafío en Vivo" onBack={home} />
+          <Placeholder title="Desafío en Vivo" subtitle={currentTeam ? `Equipo: ${currentTeam.name} (${currentTeam.players.join(' y ')})` : undefined} onBack={home} />
         ) : (
           <Placeholder title="Tabla de Posiciones" onBack={home} />
         )}
