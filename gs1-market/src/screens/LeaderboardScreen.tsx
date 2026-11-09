@@ -130,12 +130,12 @@ function Row({ r, index, leader, tiebreak, attempts }: { r: GameResult; index: n
     <li className={`grid flex-1 grid-cols-[4rem_1fr_9rem_7rem_14rem] items-center gap-3 rounded-2xl border px-2 ${first ? 'border-yellow-300 bg-gradient-to-r from-yellow-50 to-white' : 'border-slate-200'}`}>
       <span className={`mx-auto flex h-11 w-11 items-center justify-center rounded-xl font-display text-2xl font-extrabold ${MEDAL[index]?.badge ?? 'bg-slate-100 text-slate-500'}`}>{index + 1}</span>
       <div className="min-w-0">
-        <div className="flex items-center gap-3">
-          <span className="truncate font-display text-3xl font-extrabold">{r.teamName}</span>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span className={`break-words font-display font-extrabold leading-tight ${r.teamName.length > 22 ? 'text-2xl' : 'text-3xl'}`}>{r.teamName}</span>
           {first && <span className="rounded-md bg-gs1-orange px-2 py-0.5 text-xs font-extrabold tracking-widest text-white">LÍDER</span>}
           {tiebreak && <span className="rounded-md bg-gs1-purple/15 px-2 py-0.5 text-xs font-extrabold tracking-widest text-gs1-purple">DESEMPATE</span>}
         </div>
-        <div className="truncate text-lg text-on-surface-variant">
+        <div className="text-lg leading-snug text-on-surface-variant">
           {r.players.length > 1 || r.players[0] !== r.teamName ? `${r.players.join(' y ')} • ` : ''}{attempts} {attempts === 1 ? 'partida' : 'partidas'}
         </div>
       </div>
