@@ -47,7 +47,7 @@ Cada pantalla pasa por: **construir → verificar (typecheck, lint, build, captu
 | 1 | Inicio / Hub | `gs1_market_pantalla_tv_interactiva` | **Cerrada** |
 | 2 | Registro de escuadrón | `gs1_market_registro_de_equipo_tv_interactiva` | **Cerrada** |
 | 3 | Desafío en vivo | `gs1_market_desaf_o_en_vivo_tv_interactiva` | **Cerrada** |
-| 4 | Tabla de posiciones | `gs1_market_tabla_de_posiciones_tv_interactiva` | En revisión |
+| 4 | Tabla de posiciones | `gs1_market_tabla_de_posiciones_tv_interactiva` | **Cerrada** |
 
 ### Pantalla 1: Inicio / Hub
 Título, tres tarjetas (8 SKU, máx. 5 por equipo, 60 s), botón "¡Comenzar partida!", simulador de haz óptico, tabla rápida Top 3, enlaces a récords y reglas. **Sin fecha del evento.**
@@ -62,7 +62,7 @@ Cronómetro, progreso, producto en curso, mira láser, tique en vivo, panel de j
 Podio Top 3, tabla de equipos, filtros, récords. Se alimenta de las partidas finalizadas.
 
 ## Fase 2: Cierre
-- [ ] (ÚLTIMA FASE) Empaquetar la app Electron en instalador de Windows y probar sin internet.
+- [x] (ÚLTIMA FASE) Empaquetar la app Electron: versión portátil (zip) generada y probada; instalador NSIS mediante GitHub Actions (ver informe 05). Sin internet: verificado (todo está empaquetado, sin CDN).
 - [ ] Pruebas con pistola real.
 - [ ] Pruebas de TV (1920x1080 y 4K) y revisión final.
 
