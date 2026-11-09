@@ -1,31 +1,44 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 
-// Lienzo fijo de 1920x1080 que se escala para caber SIEMPRE en la ventana (TV, monitor, laptop),
-// sin scroll y con las mismas proporciones en cualquier pantalla.
-export const STAGE_W = 1920;
-export const STAGE_H = 1080;
+// Lienzo fijo que se escala para caber SIEMPRE en la ventana (TV, monitor, laptop), sin scroll.
+// Horizontal: 1920x1080. Vertical (TV girada): 1080x1920. Se elige según la orientación de la ventana.
+export type Orientation = 'landscape' | 'portrait';
+const SIZES: Record<Orientation, { w: number; h: number }> = {
+  landscape: { w: 1920, h: 1080 },
+  portrait: { w: 1080, h: 1920 },
+};
 
-function useFitScale() {
-  const calc = () => Math.min(window.innerWidth / STAGE_W, window.innerHeight / STAGE_H);
-  const [scale, setScale] = useState(calc);
+const OrientationContext = createContext<Orientation>('landscape');
+export const useOrientation = () => useContext(OrientationContext);
+
+function useStageLayout() {
+  const calc = () => {
+    const orientation: Orientation = window.innerHeight > window.innerWidth ? 'portrait' : 'landscape';
+    const { w, h } = SIZES[orientation];
+    return { orientation, w, h, scale: Math.min(window.innerWidth / w, window.innerHeight / h) };
+  };
+  const [layout, setLayout] = useState(calc);
   useEffect(() => {
-    const onResize = () => setScale(calc());
+    const onResize = () => setLayout(calc());
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
-  return scale;
+  return layout;
 }
 
 export function Stage({ children }: { children: ReactNode }) {
-  const scale = useFitScale();
+  const { orientation, w, h, scale } = useStageLayout();
   return (
-    <div className="fixed inset-0 z-10 overflow-hidden">
-      <div
-        className="absolute left-1/2 top-1/2 flex flex-col overflow-hidden"
-        style={{ width: STAGE_W, height: STAGE_H, transform: `translate(-50%, -50%) scale(${scale})` }}
-      >
-        {children}
+    <OrientationContext.Provider value={orientation}>
+      <div className="fixed inset-0 z-10 overflow-hidden">
+        <div
+          data-orientation={orientation}
+          className="absolute left-1/2 top-1/2 flex flex-col overflow-hidden"
+          style={{ width: w, height: h, transform: `translate(-50%, -50%) scale(${scale})` }}
+        >
+          {children}
+        </div>
       </div>
-    </div>
+    </OrientationContext.Provider>
   );
 }

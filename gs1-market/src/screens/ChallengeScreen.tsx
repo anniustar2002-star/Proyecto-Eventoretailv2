@@ -142,7 +142,7 @@ export function ChallengeScreen({ team, data, tiebreak, turn, nextTeam, onFinish
   return (
     <div className="relative z-10 flex min-h-0 flex-1 flex-col gap-5 px-10 py-6">
       {/* Cronómetro */}
-      <section className="card-glow grid grid-cols-[1fr_auto_1fr] items-center rounded-3xl bg-white px-10 py-5">
+      <section className="card-glow grid grid-cols-[1fr_auto_1fr] items-center rounded-3xl bg-white px-10 py-5 portrait:grid-cols-2 portrait:gap-y-3 portrait:px-8">
         <div>
           <div className="text-sm font-extrabold tracking-widest text-on-surface-variant">
             CAJA {team.box} • PARTIDA {turn.current} DE {turn.total}{tiebreak ? ` • DESEMPATE ${tiebreak}` : ''}
@@ -150,7 +150,7 @@ export function ChallengeScreen({ team, data, tiebreak, turn, nextTeam, onFinish
           <div className="font-display text-4xl font-extrabold leading-tight text-gs1-blue">{team.name}</div>
           {!(team.players.length === 1 && team.players[0] === team.name) && <div className="text-xl text-on-surface-variant">{team.players.join(' y ')}</div>}
         </div>
-        <div className="text-center">
+        <div className="text-center portrait:order-last portrait:col-span-2">
           <div className={`font-mono text-[9rem] font-extrabold leading-none tabular-nums ${timeClass}`}>{formatClock(total)}</div>
           <div className="mt-1 text-lg font-bold tracking-widest text-on-surface-variant">
             LÍMITE {formatClock(MAX_TIME_MS).slice(0, 5)} • FALTAS: <span className={game.errors ? 'text-red-600' : ''}>{game.errors}</span>{game.errors > 0 && ` (+${(game.penaltyMs / 1000).toFixed(0)} s)`}
@@ -165,7 +165,7 @@ export function ChallengeScreen({ team, data, tiebreak, turn, nextTeam, onFinish
         </div>
       </section>
 
-      <div className="grid min-h-0 flex-1 grid-cols-[1.25fr_1fr] gap-6">
+      <div className="grid min-h-0 flex-1 grid-cols-[1.25fr_1fr] gap-6 portrait:grid-cols-1 portrait:grid-rows-[1.1fr_1fr] portrait:gap-5">
         {/* Pista + campo de escaneo */}
         <section className="card-glow relative flex min-h-0 flex-col rounded-3xl bg-white p-8">
           {game.phase === 'ready' ? (
@@ -187,7 +187,7 @@ export function ChallengeScreen({ team, data, tiebreak, turn, nextTeam, onFinish
               <div key={game.index} className="pop flex flex-1 items-center justify-center gap-8">
                 {product && running ? (
                   image ? (
-                    <img src={image} data-product={product.id} alt="Producto a escanear" className="h-[21rem] w-auto max-w-full object-contain drop-shadow-xl" />
+                    <img src={image} data-product={product.id} alt="Producto a escanear" className="h-[21rem] w-auto max-w-full object-contain drop-shadow-xl portrait:h-[30rem]" />
                   ) : (
                     // Provisional: mientras no haya foto del producto se muestra icono y nombre
                     <>

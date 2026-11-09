@@ -56,7 +56,8 @@ Todo el diseño cabe en un lienzo fijo de **1920×1080** que se escala a cualqui
 ### Revisión de pantalla (TV de 50")
 - Método: la app se dibuja en un lienzo de 1920x1080 escalado a la ventana (no hay "responsive" por tamaños; el diseño es idéntico en cualquier pantalla). Se auditaron las 4 pantallas (más ventanas y resultado de partida) en **3840x2160, 1920x1080, 1920x1200, 1366x768 y 1280x720**: sin scroll, sin elementos fuera del lienzo (en 4K se escala x2, en 1366x768 x0,71).
 - Se probó con nombres de equipo y de jugadores muy largos (40 caracteres): se ajustan en varias líneas y todo cabe. Se corrigió un fallo en la Tabla de posiciones donde los nombres largos aparecían cortados con "…".
-- **Texto pequeño**: hay etiquetas secundarias de 12 a 14 px (p. ej. "PRODUCTOS", "FALTAS", "RÉCORD ACTUAL", "ORO/PLATA/BRONCE", +x.x s). En una TV de 50" a Full HD se leen de cerca, pero son difíciles a 3 m o más. Los textos principales (tiempo, equipo, pista) son grandes. Pendiente decidir si se suben a 18 px o más.
+- **Texto pequeño (corregido)**: las etiquetas de 12 a 14 px se subieron a **18 px o más** (ninguna palabra de la app queda por debajo de 18 px; verificado automáticamente en todas las pantallas).
+- **Vista vertical (TV girada)**: el lienzo cambia solo a **1080×1920** cuando la ventana es más alta que ancha, y cada pantalla tiene su diseño vertical (Inicio en una columna con la ilustración sobre el título y top 3; Registro con las cajas apiladas y canasta de 5×2; Desafío con cronómetro arriba, pista en el centro y tique abajo; Posiciones con podio arriba y tabla debajo). Verificado en 1080×1920, 2160×3840 y 768×1366, incluyendo nombres de 40 caracteres, y girando la ventana en vivo (horizontal ↔ vertical): sin scroll ni cortes. Los diseños horizontales no cambiaron.
 - No se vio en la TV real.
 
 ## 8. Lo que NO se ha podido verificar (pendientes)

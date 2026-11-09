@@ -22,7 +22,7 @@
 - **Sin internet:** se distribuye como app de escritorio con **Electron**, compilada. Datos guardados localmente en el equipo.
 - La carpeta de la app anterior se deja por ahora; se borra más adelante.
 
-- **Pantalla pública, sin scroll:** cada pantalla se diseña dentro de un lienzo de 1920x1080 que se escala a la ventana (`Stage`).
+- **Pantalla pública, sin scroll:** cada pantalla se diseña dentro de un lienzo de 1920x1080 (horizontal) o 1080x1920 (vertical) que se escala a la ventana (`Stage`); en Tailwind la variante `portrait:` aplica el diseño vertical. Ningún texto por debajo de 18 px (TV de 50").
 
 ## Stack propuesto (actualizado)
 Electron + Vite + React + TypeScript + Tailwind. Destino: **Windows**; el instalador se hace en la **última fase**. Sin CDN: fuentes Inter y Plus Jakarta Sans empaquetadas. Pensado para TV 50-55" en pantalla completa.

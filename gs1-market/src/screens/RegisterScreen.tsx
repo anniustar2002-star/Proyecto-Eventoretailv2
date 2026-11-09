@@ -47,12 +47,12 @@ export function RegisterScreen({ data, tiebreakTeamIds, onSaveTeams, onStartGame
 
   return (
     <div className="relative z-10 flex min-h-0 flex-1 flex-col gap-5 px-10 py-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between portrait:flex-col portrait:items-start portrait:gap-4">
         <div>
           <h1 className="font-display text-5xl font-extrabold tracking-tight text-on-surface">Registro de Equipos</h1>
           <p className="mt-1 text-xl text-on-surface-variant">Cada equipo o participante ocupa una caja (hasta {BOXES.length}). Cuando estén todos, pulsa Iniciar juego.</p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 portrait:flex-wrap">
           {freeBox ? (
             <button onClick={() => setModal({ mode: 'create' })} className="flex items-center gap-3 rounded-2xl bg-gs1-blue px-6 py-4 text-xl font-bold text-white shadow-md transition hover:bg-gs1-blue/90 active:translate-y-0.5">
               <Plus size={24} /> Agregar otro equipo
@@ -67,8 +67,8 @@ export function RegisterScreen({ data, tiebreakTeamIds, onSaveTeams, onStartGame
       </div>
 
       {/* Las cajas se centran: 1, 2 o 3 quedan siempre equilibradas */}
-      <div className="flex min-h-0 flex-1 items-center justify-center">
-       <div className="flex items-stretch justify-center gap-8">
+      <div className="flex min-h-0 flex-1 items-center justify-center portrait:items-start">
+       <div className="flex items-stretch justify-center gap-8 portrait:w-full portrait:flex-col portrait:gap-4">
         {teams.map((t) => (
           <TeamCard
             key={t.id}
@@ -97,13 +97,13 @@ export function RegisterScreen({ data, tiebreakTeamIds, onSaveTeams, onStartGame
       </div>
 
       <section className="card-glow rounded-3xl bg-white px-8 py-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between portrait:flex-col portrait:items-start portrait:gap-1">
           <h2 className="font-display text-2xl font-bold text-gs1-blue">Canasta de la partida: {PRODUCTS.length} productos</h2>
           <p className="text-lg text-on-surface-variant">
             El orden se sortea en cada partida • Máximo {formatClock(MAX_TIME_MS).slice(0, 5)} • Código equivocado: +{PENALTY_MS / 1000} s
           </p>
         </div>
-        <div className="mt-4 grid grid-cols-10 gap-3">
+        <div className="mt-4 grid grid-cols-10 gap-3 portrait:grid-cols-5">
           {PRODUCTS.map((p) => {
             const Icon = PRODUCT_ICONS[p.id];
             const image = productImage(p.id);
@@ -114,7 +114,7 @@ export function RegisterScreen({ data, tiebreakTeamIds, onSaveTeams, onStartGame
                 ) : (
                   <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-gs1-blue shadow-sm"><Icon size={26} /></span>
                 )}
-                <span className="text-base font-semibold leading-tight">{p.name}</span>
+                <span className="text-lg font-semibold leading-tight">{p.name}</span>
               </div>
             );
           })}
@@ -140,7 +140,7 @@ function TeamCard({ team, tiebreak, onEdit, onDelete }: { team: Team; tiebreak: 
   const solo = team.players.length === 1 && team.players[0] === team.name;
   const [confirming, setConfirming] = useState(false);
   return (
-    <section className={`card-glow flex w-[540px] flex-col rounded-3xl bg-white p-7 ring-2 ${s.ring}`}>
+    <section className={`card-glow flex w-[540px] flex-col rounded-3xl bg-white p-7 portrait:w-full portrait:p-6 ring-2 ${s.ring}`}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <span className={`flex h-14 w-14 items-center justify-center rounded-2xl font-display text-3xl font-extrabold ${s.badge}`}>{team.box}</span>

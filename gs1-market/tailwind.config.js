@@ -1,8 +1,12 @@
+import plugin from 'tailwindcss/plugin';
+
 /** Tokens GS1 tomados de la maqueta de Stitch y de DESIGN.md */
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
+      // Para TV de 50": ningún texto por debajo de 18 px
+      fontSize: { xs: ['1.125rem', { lineHeight: '1.5rem' }], sm: ['1.125rem', { lineHeight: '1.6rem' }] },
       colors: {
         'gs1-blue': '#002C6C',
         'gs1-orange': '#F26334',
@@ -34,5 +38,8 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // Variante `portrait:` para la pantalla en vertical (el Stage pone data-orientation)
+    plugin(({ addVariant }) => addVariant('portrait', '[data-orientation="portrait"] &')),
+  ],
 };

@@ -22,7 +22,7 @@ export function Header() {
         </div>
       </div>
       <div className="flex items-center gap-8">
-        <span className="flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-5 py-2 text-base font-bold tracking-wide text-green-800">
+        <span className="flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-5 py-2 text-lg font-bold tracking-wide text-green-800">
           <span className="h-3 w-3 rounded-full bg-gs1-green" /> ARENA EN VIVO
         </span>
         <span className="font-mono text-2xl font-semibold text-gs1-blue">{time}</span>

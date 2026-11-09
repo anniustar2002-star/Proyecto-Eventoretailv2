@@ -24,19 +24,19 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
   const teamsPlayed = new Set(results.map((r) => r.teamId)).size;
 
   return (
-    <div className="relative z-10 grid min-h-0 w-full flex-1 grid-cols-[1.55fr_1fr] gap-8 px-10 py-6">
+    <div className="relative z-10 grid min-h-0 w-full flex-1 grid-cols-[1.55fr_1fr] gap-8 px-10 py-6 portrait:grid-cols-1 portrait:grid-rows-[auto_1fr] portrait:gap-5 portrait:py-5">
       {/* Columna izquierda */}
-      <div className="flex min-h-0 flex-col gap-4">
-        <section className="card-glow relative flex min-h-0 flex-1 flex-col justify-between overflow-hidden rounded-3xl bg-white p-9">
-          <img src={bolsas} alt="" aria-hidden className="pointer-events-none absolute right-20 top-20 w-[450px] select-none" />
+      <div className="flex min-h-0 flex-col gap-4 portrait:gap-4">
+        <section className="card-glow relative flex min-h-0 flex-1 flex-col justify-between overflow-hidden rounded-3xl bg-white p-9 portrait:flex-none portrait:p-8">
+          <img src={bolsas} alt="" aria-hidden className="pointer-events-none absolute right-20 top-20 w-[450px] select-none portrait:static portrait:mx-auto portrait:-my-2 portrait:w-[380px]" />
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-extrabold tracking-widest text-gs1-blue">
             <span className="h-2 w-2 rounded-full bg-gs1-orange" /> COMPETICIÓN OFICIAL • GS1 VENEZUELA
           </span>
-          <h1 className="mt-5 max-w-[34rem] font-display text-6xl font-extrabold leading-[1.02] tracking-tight text-on-surface">
+          <h1 className="mt-5 max-w-[34rem] font-display text-6xl portrait:max-w-none portrait:text-7xl font-extrabold leading-[1.02] tracking-tight text-on-surface">
             La Carrera de Escaneo de <span className="text-gs1-blue">GS1</span>{' '}
             <span className="bg-gradient-to-r from-gs1-fuchsia to-gs1-purple bg-clip-text text-transparent">Market</span>
           </h1>
-          <p className="mt-4 max-w-[27rem] text-2xl leading-snug text-on-surface-variant">
+          <p className="mt-4 max-w-[27rem] text-2xl leading-snug portrait:max-w-none text-on-surface-variant">
             Demuestra la velocidad, precisión y sincronía de tu equipo en la caja registradora de alta tecnología.
           </p>
           <div className="mt-5 grid grid-cols-3 gap-5 border-t border-slate-200 pt-5">
@@ -60,7 +60,7 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
       </div>
 
       {/* Columna derecha */}
-      <div className="flex min-h-0 flex-col gap-5">
+      <div className="flex min-h-0 flex-col gap-5 portrait:gap-4">
         <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gs1-blue to-[#0a3f8f] p-8 text-white shadow-lg shadow-gs1-blue/20">
           <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-gs1-orange/30 blur-3xl" />
           <div className="relative flex items-center justify-between">
@@ -87,7 +87,7 @@ export function HomeScreen({ data, onStart, onRecords }: Props) {
               </p>
             )}
             {top3.map((r, i) => (
-              <div key={r.id} className={`flex items-center gap-4 rounded-2xl border p-4 ${i === 0 ? 'border-yellow-200 bg-yellow-50/60' : 'border-slate-200'}`}>
+              <div key={r.id} className={`flex items-center gap-4 rounded-2xl border p-4 ${i >= 3 ? 'portrait:hidden' : ''} ${i === 0 ? 'border-yellow-200 bg-yellow-50/60' : 'border-slate-200'}`}>
                 <span className={`flex h-9 w-9 items-center justify-center rounded-lg text-lg font-extrabold ${['bg-yellow-400 text-yellow-900', 'bg-slate-200 text-slate-700', 'bg-orange-200 text-orange-800'][i] ?? 'bg-slate-100 text-slate-500'}`}>{i + 1}</span>
                 <div className="flex-1">
                   <div className="text-xl font-bold">{r.teamName}</div>
