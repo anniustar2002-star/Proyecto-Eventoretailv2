@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Jabón Facial"><title>Jabón Facial</title><ellipse cx="60" cy="108" rx="36" ry="4" fill="#002C6C" opacity=".12"/>
+<rect x="24" y="52" width="72" height="44" rx="20" fill="#FFD6E3"/>
+<rect x="24" y="52" width="72" height="34" rx="17" fill="#FFE8EF"/>
+<rect x="38" y="62" width="44" height="16" rx="8" fill="#FFFFFF"/>
+<text x="60" y="73.5" font-family="Arial" font-weight="700" font-size="8" fill="#F05587" text-anchor="middle">JABÓN</text>
+<circle cx="40" cy="38" r="8" fill="none" stroke="#00B6DE" stroke-width="2.4"/>
+<circle cx="58" cy="26" r="5.5" fill="none" stroke="#00B6DE" stroke-width="2"/>
+<circle cx="76" cy="38" r="6.5" fill="none" stroke="#00B6DE" stroke-width="2.2"/>
+<circle cx="37.5" cy="35.5" r="1.8" fill="#00B6DE"/></svg>

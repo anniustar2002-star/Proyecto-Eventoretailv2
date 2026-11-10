@@ -1,0 +1,51 @@
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+@import '@fontsource/inter/800.css';
+@import '@fontsource/inter/900.css';
+@import '@fontsource/plus-jakarta-sans/600.css';
+@import '@fontsource/plus-jakarta-sans/700.css';
+@import '@fontsource/plus-jakarta-sans/800.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    margin: 0;
+    background: #ffffff;
+    color: #0f172a;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+.laser-line {
+  box-shadow: 0 0 16px #f26334, 0 0 32px #f05587;
+}
+.card-glow {
+  box-shadow: 0 12px 35px -8px rgba(0, 44, 108, 0.08), 0 0 0 1px rgba(203, 213, 225, 0.6);
+}
+.barcode-pattern {
+  background: repeating-linear-gradient(90deg, #0f172a 0, #0f172a 3px, transparent 3px, transparent 7px, #0f172a 7px, #0f172a 12px, transparent 12px, transparent 15px, #0f172a 15px, #0f172a 20px, transparent 20px, transparent 26px);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-10px); }
+  40%, 80% { transform: translateX(10px); }
+}
+.shake { animation: shake 0.4s ease-in-out; }
+@keyframes pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.pop { animation: pop 0.35s ease-out; }
+@keyframes alarm {
+  0%, 100% { color: #dc2626; }
+  50% { color: #f26334; }
+}
+.alarm { animation: alarm 0.5s ease-in-out infinite; }

@@ -1,0 +1,39 @@
+# Informe 01: Cimientos + Pantalla 1 (Inicio)
+
+Estado: **APROBADA por el usuario (pantalla cerrada)**. Captura final: `01-inicio.png` (compara con `Carrera-de-escaneo-imagenes/.../gs1_market_pantalla_tv_interactiva/screen.png`).
+
+## Qué se hizo
+**Cimientos (`gs1-market/`)**: Electron + Vite + React + TypeScript estricto + Tailwind. Fuentes Inter y Plus Jakarta Sans empaquetadas (sin CDN).
+- `electron/main.cjs` y `preload.cjs`: ventana a pantalla completa y guardado de datos en archivo JSON local (en navegador cae a `localStorage`).
+- `src/data/products.ts`: los 10 productos con GTIN de prueba (único lugar a cambiar).
+- `src/lib/`: reglas (1:30, +5 s), validación de GTIN, orden aleatorio y orden de desempate sin coincidencias, ranking (más productos, luego menor tiempo), formato de reloj, almacenamiento.
+- `src/hooks/useBarcodeScanner.ts`: escucha la pistola USB (teclea dígitos y Enter).
+
+**Pantalla 1 (Inicio)**: título, 3 tarjetas (10 productos, 2 por equipo, 1:30), botón "¡Comenzar partida!", prueba de pistola (real o botón de simulación, con contador x/10), Top 3 real desde los resultados guardados, "Reglas Rápidas" (modal) y "Ver Tabla de Posiciones".
+
+## Cambios respecto a la maqueta
+- **Sin fecha** del evento (ni en cabecera, chips ni pie). El reloj muestra solo la hora.
+- 8 SKU -> 10 productos; "máx. 5 por equipo" -> 2; "60s" -> 1:30; "Leídos 0/8" -> 0/10.
+- Se quitó el botón de sonido y el pie de página con fecha. "Ver Récords del Día" -> "Ver Tabla de Posiciones".
+- **Se quitó también la ubicación del evento** (la app se usa en varios eventos): cabecera, chip y tarjeta de equipos registrados.
+- El simulador ahora reconoce los GTIN reales de la canasta y avisa si el código no pertenece.
+
+## Verificación
+- `tsc --noEmit` sin errores; `vitest`: 8 pruebas pasan (GTIN válidos y únicos, orden, desempate, ranking, formato).
+- `vite build` correcto, fuentes incluidas en `dist/`.
+- Captura con Chromium a 1600 px: sin errores de consola y sin texto de fecha.
+- **No verificado**: la ventana de Electron (no se pudo abrir aquí). Solo se comprobó la sintaxis de `main.cjs` y `preload.cjs`. Falta probarlo en Windows, y probar la pistola real.
+
+## Para revisar
+- ¿Coincide con lo que querías? ¿Se queda "Ver Tabla de Posiciones" o prefieres otro texto?
+- La barra de navegación inferior de la maqueta no se incluyó (tapaba contenido); la navegación será con los botones de cada pantalla.
+
+## Ajuste posterior (revisión del usuario)
+- Se **quitó el simulador/prueba de pistola** del Inicio.
+- Para llenar el espacio, tomando ideas de la versión vertical que mostró el usuario: tarjeta azul de **Récord actual** (tiempo y equipo), Top 3, y contadores de **equipos que han competido** y **partidas jugadas**. Datos reales desde los resultados guardados.
+- **Datos de ejemplo** (`src/data/demoResults.ts`): mientras no haya resultados reales, el Inicio muestra 5 equipos de muestra (récord, Top 3 y contadores). Desaparecen solos con la primera partida real. Se apagan con `SHOW_DEMO_WHEN_EMPTY = false`.
+- **Sin scroll (pantalla pública):** la app se dibuja en un lienzo fijo de 1920x1080 (`src/components/Stage.tsx`) que se escala para caber en cualquier ventana, sin barras de desplazamiento. Verificado en 1920x1080, 1920x870, 1366x768 y 3840x2160 (scroll = 0). **Todas las pantallas siguientes deben caber en ese lienzo.**
+- La tabla rápida muestra ahora el **Top 5**.
+- Ilustración animada de bolsas GS1 (`src/assets/retail-bolsas.svg`, enviada por el usuario) en el hueco de la tarjeta principal, a la derecha del título.
+- Logo de GS1 Venezuela en la cabecera (reemplaza el icono de escáner): `src/assets/logo-gs1-venezuela.png`.
+- Se quitó el chip **#GS1MARKET** (cabecera y tarjeta principal). Captura final actualizada.
