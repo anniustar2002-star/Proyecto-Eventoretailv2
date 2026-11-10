@@ -242,7 +242,7 @@ function TeamModal({ box, initial, takenNames, onCancel, onAccept }: ModalProps)
 
         <div className="mt-6 space-y-4">
           {kind === 'solo' ? (
-            <Field label="Nombre del participante" value={solo} onChange={setSolo} placeholder="Ej: Fulanito Pérez" autoFocus invalid={duplicate} hint={duplicate ? 'Ese nombre ya está registrado' : undefined} />
+            <Field label="Nombre del participante" value={solo} onChange={setSolo} placeholder="Ej: Pedro Perez" autoFocus invalid={duplicate} hint={duplicate ? 'Ese nombre ya está registrado' : undefined} />
           ) : (
             <>
               <Field label="Nombre del equipo" value={team} onChange={setTeam} placeholder="Ej: Polar Express" autoFocus invalid={duplicate} hint={duplicate ? 'Ese nombre ya está registrado' : undefined} />
