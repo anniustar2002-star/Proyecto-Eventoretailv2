@@ -30,7 +30,8 @@ jobs:
       - name: Activar el icono en el .exe
         shell: bash
         run: node -e "const f=require('fs');const p=JSON.parse(f.readFileSync('package.json','utf8'));p.build.win.signAndEditExecutable=true;f.writeFileSync('package.json',JSON.stringify(p,null,2))"
-      - run: npx electron-builder --win nsis portable --x64
+      # --publish never: la publicación en Releases la hace el último paso con el token del flujo
+      - run: npx electron-builder --win nsis portable --x64 --publish never
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: "false" # sin firma de código
       - uses: actions/upload-artifact@v4
