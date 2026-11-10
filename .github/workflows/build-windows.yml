@@ -26,8 +26,11 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
-      # En Windows sí se puede incrustar el icono en el .exe
-      - run: npx electron-builder --win nsis portable --x64 -c.win.signAndEditExecutable=true
+      # En Windows sí se puede incrustar el icono en el .exe (en Linux esta opción exige Wine)
+      - name: Activar el icono en el .exe
+        shell: bash
+        run: node -e "const f=require('fs');const p=JSON.parse(f.readFileSync('package.json','utf8'));p.build.win.signAndEditExecutable=true;f.writeFileSync('package.json',JSON.stringify(p,null,2))"
+      - run: npx electron-builder --win nsis portable --x64
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: "false" # sin firma de código
       - uses: actions/upload-artifact@v4
