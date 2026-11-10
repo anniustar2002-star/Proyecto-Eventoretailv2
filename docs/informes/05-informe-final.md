@@ -43,6 +43,9 @@ Todo el diseño cabe en un lienzo fijo de **1920×1080** que se escala a cualqui
 - Icono: círculo GS1 (`build/icon.ico`). En la versión generada en Linux el `.exe` conserva el icono por defecto de Electron; en el workflow de Windows sí se incrusta.
 - El paquete de la app (`app.asar`) pesa 1,9 MB: solo contiene `dist/`, `electron/` y `package.json`.
 
+### Compilación final (versión portátil 0.1.0)
+Generada con el código completo actual (letras de 18 px, vista vertical, cuenta regresiva inmediata con recomendación, reinicio del juego): `GS1-Market-Portable-0.1.0.zip` (~113 MB). Verificada con el mismo paquete (`app.asar`) en Electron: partida completa de 2 equipos con cuenta regresiva automática y "Siguiente", tabla final, datos guardados y juego marcado como terminado; sin errores. El `.exe` de Windows en sí no se ha podido ejecutar en el entorno de desarrollo.
+
 ## 7. Verificación realizada
 | Qué | Resultado |
 |---|---|
