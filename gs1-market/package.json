@@ -12,7 +12,7 @@
     "test": "vitest run",
     "electron:dev": "vite build && electron .",
     "preview": "vite preview",
-    "electron:build": "npm run build && electron-builder --win --x64",
+    "electron:build": "npm run build && electron-builder --win nsis portable --x64",
     "electron:zip": "npm run build && electron-builder --win zip --x64"
   },
   "devDependencies": {
@@ -53,6 +53,12 @@
       "target": [
         {
           "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
           "arch": [
             "x64"
           ]
