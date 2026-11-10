@@ -1,6 +1,6 @@
 # Informe 00: Análisis inicial
 
-## App anterior (`remix-reto-del-escaneo-gs1/`) — descartada
+## App anterior (`remix-reto-del-escaneo-gs1/`) — descartada y eliminada del repositorio
 Next.js 15 de un solo participante. Se revisó antes de descartarla; hallazgos que conviene **no repetir** en la nueva:
 - Validación de códigos inexistente (aceptaba cualquier número de hasta 14 dígitos; `PRODUCT_BARCODES` sin usar).
 - `toast()` dentro de updaters de estado (duplicados en Strict Mode).

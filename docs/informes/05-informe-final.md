@@ -76,7 +76,7 @@ Generada con el código completo actual (letras de 18 px, vista vertical, cuenta
 - Al eliminar una caja, las demás **no se renumeran** (la caja es una estación física); el siguiente equipo nuevo reutiliza el número libre.
 - Los datos de ejemplo del Inicio se apagan con `SHOW_DEMO_WHEN_EMPTY = false` en `src/data/demoResults.ts`.
 - Las ilustraciones traen el nombre impreso en el envase (visible en la pista).
-- La app anterior (`remix-reto-del-escaneo-gs1/`) y `Carrera-de-escaneo/code.html` (script roto) siguen en el repositorio y se pueden borrar.
+- La app anterior (`remix-reto-del-escaneo-gs1/`) y `Carrera-de-escaneo/code.html` (script roto) **se eliminaron** del repositorio a petición del usuario (siguen en el historial de git).
 - Sin firma de código: Windows mostrará el aviso de SmartScreen.
 
 ## 10. Guía rápida para el evento

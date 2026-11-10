@@ -3,12 +3,12 @@
 > Documento vivo. Si la sesión se corta, retomar leyendo este archivo, `PROGRESO.md` y el último informe en `informes/`.
 
 ## Decisiones tomadas
-- La app anterior (`remix-reto-del-escaneo-gs1/`) **ya no se usa**. Se trabaja solo con la maqueta nueva.
+- La app anterior (`remix-reto-del-escaneo-gs1/`) **ya no se usa y fue eliminada del repositorio**. Se trabaja solo con la maqueta nueva.
 - La **fecha del evento se elimina** de todo el diseño (no aparece en pantallas, textos ni datos).
   Tampoco se menciona la fecha en el código ni en los datos de ejemplo.
 - Se trabaja **pantalla por pantalla**: la siguiente empieza solo cuando la anterior está lista y revisada por el usuario.
 - Fuente de verdad visual: `Carrera-de-escaneo-imagenes/stitch_spanish_conversation_assistant/` (PNG + HTML por pantalla) y `.../retail_speed_sprint/DESIGN.md`.
-- Ignorar `Carrera-de-escaneo/code.html` (script roto). `Carrera-de-escaneo/DESIGN.md` solo como referencia de reglas de negocio.
+- `Carrera-de-escaneo/code.html` (script roto) fue eliminado. `Carrera-de-escaneo/DESIGN.md` queda solo como referencia de reglas de negocio.
 
 ## Reglas de negocio confirmadas por el usuario
 - **10 productos** (ver `datos-productos.md`): Leche, Mantequilla, Pasta, Cereal, Aceite, Lata de Maíz, Jarabe para la tos, Jabón Facial, Caja de Acetaminofén, Barra de Chocolate. GTIN de prueba generados por Claude.
