@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowRight, CircleCheck, Flag, Play, ScanLine, TriangleAlert, X } from 'lucide-react';
+import { ArrowRight, CircleCheck, Flag, Lightbulb, ScanLine, TriangleAlert, X } from 'lucide-react';
 import { PRODUCTS, TOTAL_PRODUCTS } from '../data/products';
 import { useAudioSynth } from '../hooks/useAudioSynth';
 import { applyScan, checkTimeUp, currentProduct, initGame, startCountdown, startRunning, toResult, totalMs, type GameState } from '../lib/game';
@@ -27,6 +27,15 @@ interface Props {
   onLeaderboard: () => void;
 }
 
+const TIPS = [
+  'Apunta la pistola al código de barras, a unos 10-15 cm, sin taparlo con la mano.',
+  'Un código equivocado suma 5 segundos: es mejor ir seguro que ir apurado.',
+  'Fíjate bien en la foto: cada producto tiene su propio código de barras.',
+  'Si un producto no lee, gíralo para ver bien su código de barras.',
+  'Mantén la pistola firme y escanea un producto a la vez.',
+  'Comunícate con tu compañero: uno busca el producto y el otro escanea.',
+];
+
 type Flash = { kind: 'ok' | 'bad'; text: string; key: number } | null;
 
 export function ChallengeScreen({ team, data, tiebreak, turn, nextTeam, onFinish, onBack, onNext, onTiebreakQueue, onLeaderboard }: Props) {
@@ -34,7 +43,8 @@ export function ChallengeScreen({ team, data, tiebreak, turn, nextTeam, onFinish
   // En el desempate el orden es totalmente distinto al de la última partida del equipo
   const [game, setGame] = useState<GameState>(() => {
     const last = [...data.results].reverse().find((r) => r.teamId === team.id);
-    return initGame(tiebreak && last ? differentOrder(last.order) : shuffledOrder(TOTAL_PRODUCTS));
+    // Al abrir la partida la cuenta regresiva empieza de inmediato (sin pedir otro clic)
+    return startCountdown(initGame(tiebreak && last ? differentOrder(last.order) : shuffledOrder(TOTAL_PRODUCTS)));
   });
   const gameRef = useRef(game);
   gameRef.current = game;
@@ -46,6 +56,7 @@ export function ChallengeScreen({ team, data, tiebreak, turn, nextTeam, onFinish
   const [confirmCancel, setConfirmCancel] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const saved = useRef(false);
+  const [tip] = useState(() => TIPS[Math.floor(Math.random() * TIPS.length)]);
 
   const update = (next: GameState) => {
     gameRef.current = next;
@@ -168,17 +179,6 @@ export function ChallengeScreen({ team, data, tiebreak, turn, nextTeam, onFinish
       <div className="grid min-h-0 flex-1 grid-cols-[1.25fr_1fr] gap-6 portrait:grid-cols-1 portrait:grid-rows-[1.1fr_1fr] portrait:gap-5">
         {/* Pista + campo de escaneo */}
         <section className="card-glow relative flex min-h-0 flex-col rounded-3xl bg-white p-8">
-          {game.phase === 'ready' ? (
-            <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
-              <h2 className="font-display text-5xl font-extrabold text-gs1-blue">¿Listos?</h2>
-              <p className="max-w-xl text-2xl text-on-surface-variant">
-                Aparecerá la pista del producto a escanear. Escanéalo con la pistola y pasa al siguiente. Un código equivocado suma {PENALTY_MS / 1000} segundos.
-              </p>
-              <button onClick={() => { play('tick'); update(startCountdown(game)); }} className="flex items-center gap-4 rounded-3xl bg-gradient-to-r from-gs1-orange to-gs1-fuchsia px-14 py-6 font-display text-4xl font-extrabold text-white shadow-lg shadow-gs1-orange/30 transition active:translate-y-0.5">
-                <Play size={36} /> ¡INICIAR!
-              </button>
-            </div>
-          ) : (
             <>
               <div className="flex items-center justify-between">
                 <span className="rounded-lg bg-gs1-orange px-4 py-1.5 text-lg font-extrabold tracking-widest text-white">PISTA #{Math.min(game.index + 1, TOTAL_PRODUCTS)}</span>
@@ -224,7 +224,6 @@ export function ChallengeScreen({ team, data, tiebreak, turn, nextTeam, onFinish
                 <div key={flash?.key} className={`pop mt-2 h-8 text-xl font-bold ${flash?.kind === 'bad' ? 'text-red-600' : 'text-green-700'}`}>{flash?.text ?? ''}</div>
               </div>
             </>
-          )}
         </section>
 
         {/* Tique */}
@@ -268,8 +267,15 @@ export function ChallengeScreen({ team, data, tiebreak, turn, nextTeam, onFinish
       </div>
 
       {game.phase === 'countdown' && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-gs1-blue/85">
-          <div key={count} className="pop font-display text-[18rem] font-extrabold leading-none text-white">{count}</div>
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-gradient-to-b from-gs1-blue to-[#0a3f8f]">
+          <div className="flex flex-col items-center gap-10 px-16 text-center">
+            <div className="text-2xl font-extrabold tracking-widest text-white/80">{team.name.toUpperCase()}, ¡PREPÁRATE!</div>
+            <div key={count} className="pop font-display text-[18rem] font-extrabold leading-none text-white">{count}</div>
+            <div className="flex max-w-3xl items-start gap-4 rounded-3xl bg-white/15 px-8 py-6 text-left text-3xl font-semibold leading-snug text-white">
+              <Lightbulb size={44} className="mt-1 shrink-0 text-yellow-300" />
+              <span><span className="block text-lg font-extrabold tracking-widest text-yellow-300">RECOMENDACIÓN</span>{tip}</span>
+            </div>
+          </div>
         </div>
       )}
 

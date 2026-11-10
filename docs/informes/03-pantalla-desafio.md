@@ -44,3 +44,8 @@ Referencia: `gs1_market_desaf_o_en_vivo_tv_interactiva` (adaptada a las reglas a
 - Prueba en navegador: crear 3 equipos, eliminar el 2º, el orden es Caja 1 → Caja 3, no hay botón por tarjeta, INICIAR JUEGO, equipo 1 completa, "Siguiente: Tres (Caja 3)", cabecera "PARTIDA 2 DE 2", al final "Ver tabla de posiciones", ambos resultados guardados; con imágenes de prueba (ya retiradas) la pista no muestra nombre. Sin errores de consola.
 - **Pendiente**: las fotos reales (el usuario las enviará). Con la pista solo en foto, conviene probar que las fotos se distingan bien a distancia en la TV.
 - **Atención**: los resultados se acumulan entre juegos (mejor partida de cada equipo). Un botón para reiniciar resultados irá en la Tabla de posiciones.
+
+## Cambio 3: la cuenta regresiva arranca sola
+- Ya no existe el paso "¿Listos? / ¡INICIAR!". Al pulsar **INICIAR JUEGO** (o **Siguiente: <equipo>**) la cuenta regresiva **3-2-1 empieza de inmediato**, con el nombre del equipo y una **recomendación** al azar (cómo apuntar la pistola, penalización, comunicación con el compañero...). Al llegar a cero arranca el reloj y el campo de la pistola queda activo.
+- Fondo de la cuenta regresiva sólido (azul GS1), sin dejar ver la pantalla de atrás.
+- Verificado en horizontal y vertical: sin botón intermedio, recomendación visible, el reloj corre tras 3 s, el siguiente equipo también arranca solo. Sin errores.
